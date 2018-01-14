@@ -1,2 +1,2 @@
 # peaze
-Lisp-like programming language based on JVM.
+Lisp-like programming language running on JVM.
