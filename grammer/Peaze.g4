@@ -1,29 +1,102 @@
 grammar Peaze;
 
-program : apply+;
+program : topunit+;
 
-apply
-    : '(' function args ')';
-
-expression
-    :  IntegerLiteral
+topunit
+    :  define
     |  apply
     ;
 
-args : expression+;
+lambda
+    :  '(' LAMBDA '(' symbol+ ')' expr+ ')'
+    ;
 
-function
-    :   '+'
-    |   '-'
-    |   '*'
-    |   '/';
+define
+    :  '(' DEFINE symbol expr ')'
+    |  '(' DEFINE '(' symbol+ ')' expr ')'
+    ;
+
+apply
+    : '(' builtin expr* ')'
+    | '(' lambda expr* ')'
+    | '(' expr expr* ')'
+    ;
+
+expr
+    :  literal
+    |  symbol
+    |  lambda
+    |  apply
+    ;
+
+empty : '(' ')';
+
+builtin
+    :  ADD
+    |  SUB
+    |  MUL
+    |  DIV
+    ;
+
+literal
+    :  Digits # Integer
+    |  BooleanLiteral # Boolean
+    |  DecimalLiteral # Decimal
+    ;
+
+symbol
+    :  SYMBOL
+    ;
+
+//  Keywords
+LAMBDA : 'lambda';
+DEFINE : 'define';
+
+//  Separators
+
+LPAREN : '(';
+RPAREN : ')';
+
+//  Operators
+GT : '>';
+LT : '<';
+BANG : '!';
+TILDE : '~';
+EQUAL : '=';
+LE : '<=';
+GE : '>=';
+NOTEQUAL : '!=';
+AND : 'and';
+OR : 'or';
+XOR : 'xor';
+ADD : '+';
+SUB : '-';
+MUL : '*';
+DIV : '/';
+MOD : '%';
+BITAND : '&';
+BITOR : '|';
+CARET : '^';
 
 //  Integer Literals
+Digits : [0-9]+;
 
-IntegerLiteral
-	:  [0-9]+
-	;
+BooleanLiteral
+    : 'true'
+    | 'false'
+    ;
 
+DecimalLiteral
+    : Digits '.' Digits
+    ;
+
+SYMBOL
+    :  SYMBOL_HEAD [a-zA-Z0-9_$]*
+    ;
+
+SYMBOL_HEAD
+    :  [a-zA-Z_$]+
+    ;
 
 // Whitespace and comments
 
@@ -31,9 +104,14 @@ WS  :  [ \t\r\n\u000C]+ -> skip
     ;
 
 COMMENT
-    :   '/*' .*? '*/' -> skip
+    :  '/*' .*? '*/' -> skip
     ;
-
+COMMENT1
+    :  '#|' .*? '|#' -> skip
+    ;
 LINE_COMMENT
-    :   '//' ~[\r\n]* -> skip
+    :  '//' ~[\r\n]* -> skip
+    ;
+LINE_COMMENT1
+    :  ';;;' ~[\r\n]* -> skip
     ;
