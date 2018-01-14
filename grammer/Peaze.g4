@@ -8,18 +8,23 @@ topunit
     ;
 
 lambda
-    :  '(' LAMBDA '(' symbol+ ')' expr+ ')'
+    :  '(' LAMBDA '(' symbol+ ')' sequence ')'
     ;
 
 define
-    :  '(' DEFINE symbol expr ')'
-    |  '(' DEFINE '(' symbol+ ')' expr ')'
+    :  '(' DEFINE '(' symbol+ ')' sequence ')' # FuncDefine
+    |  '(' DEFINE symbol lambda ')'            # LambdaDefine
+    |  '(' DEFINE symbol expr ')'              # VarDefine
     ;
 
 apply
-    : '(' builtin expr* ')'
-    | '(' lambda expr* ')'
-    | '(' expr expr* ')'
+    : '(' builtin expr* ')'  # BuiltinApply
+    | '(' lambda expr* ')'   # LambdaApply
+    | '(' expr expr* ')'     # ExprApply
+    ;
+
+sequence
+    :  (define|expr)+
     ;
 
 expr
@@ -39,9 +44,9 @@ builtin
     ;
 
 literal
-    :  Digits # Integer
-    |  BooleanLiteral # Boolean
-    |  DecimalLiteral # Decimal
+    :  Digits         # IntegerLiteral
+    |  BooleanLiteral # BooleanLiteral
+    |  DecimalLiteral # DecimalLiteral
     ;
 
 symbol

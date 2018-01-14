@@ -1,10 +1,27 @@
 package com.pzque;
 
 class PeazeValue {
-    private Object value = null;
     private PeazeType type = null;
+    private Object value = null;
 
     private PeazeValue() {
+    }
+
+    public PeazeType getType() {
+        return type;
+    }
+
+    private PeazeValue(PeazeType type, Object value) {
+        this.type = type;
+        this.value = value;
+    }
+
+    public Boolean isUndefined() {
+        return this.type == PeazeType.UNDEFINED;
+    }
+
+    public Boolean isNull() {
+        return this.type == PeazeType.NULL;
     }
 
     public PeazeValue(Boolean value) {
@@ -31,8 +48,11 @@ class PeazeValue {
         this.value = value;
     }
 
-    public PeazeType getType() {
-        return type;
+
+    public PeazeValue(PeazeFunction value) {
+        assert value != null;
+        this.type = PeazeType.FUNCTION;
+        this.value = value;
     }
 
     public void setBoolean(Boolean value) {
@@ -59,6 +79,12 @@ class PeazeValue {
         this.value = value;
     }
 
+    public void setFunction(PeazeFunction value) {
+        assert value != null;
+        this.type = PeazeType.FUNCTION;
+        this.value = value;
+    }
+
     public Boolean asBoolean() {
         assert this.type == PeazeType.BOOLEAN;
         return (Boolean) this.value;
@@ -79,5 +105,11 @@ class PeazeValue {
         return (Integer) this.value;
     }
 
-    static final PeazeValue NULL = new PeazeValue();
+    public PeazeFunction asFunction() {
+        assert this.type == PeazeType.FUNCTION;
+        return (PeazeFunction) this.value;
+    }
+
+    static final PeazeValue NULL = new PeazeValue(PeazeType.NULL, null);
+    static final PeazeValue UNDEFINED = new PeazeValue(PeazeType.UNDEFINED, null);
 }

@@ -16,6 +16,8 @@ public class App {
         PeazeParser parser = new PeazeParser(tokens);
         ParserRuleContext ast = parser.program();
 
+        PeazeInterpreter interpreter = new PeazeInterpreter();
+
         System.out.println(ast.toStringTree());
     }
 }

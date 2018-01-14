@@ -9,5 +9,7 @@ enum PeazeType {
     STRING,
     LIST,
     BUILTIN_OP,
-    FUNCTION
+    FUNCTION,
+    NULL,
+    UNDEFINED
 }

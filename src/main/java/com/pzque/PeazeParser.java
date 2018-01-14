@@ -24,11 +24,11 @@ public class PeazeParser extends Parser {
 		LINE_COMMENT=32, LINE_COMMENT1=33;
 	public static final int
 		RULE_program = 0, RULE_topunit = 1, RULE_lambda = 2, RULE_define = 3, 
-		RULE_apply = 4, RULE_expr = 5, RULE_empty = 6, RULE_builtin = 7, RULE_literal = 8, 
-		RULE_symbol = 9;
+		RULE_apply = 4, RULE_sequence = 5, RULE_expr = 6, RULE_empty = 7, RULE_builtin = 8, 
+		RULE_literal = 9, RULE_symbol = 10;
 	public static final String[] ruleNames = {
-		"program", "topunit", "lambda", "define", "apply", "expr", "empty", "builtin", 
-		"literal", "symbol"
+		"program", "topunit", "lambda", "define", "apply", "sequence", "expr", 
+		"empty", "builtin", "literal", "symbol"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
@@ -112,17 +112,17 @@ public class PeazeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(21); 
+			setState(23); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(20);
+				setState(22);
 				topunit();
 				}
 				}
-				setState(23); 
+				setState(25); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==LPAREN );
@@ -156,20 +156,20 @@ public class PeazeParser extends Parser {
 		TopunitContext _localctx = new TopunitContext(_ctx, getState());
 		enterRule(_localctx, 2, RULE_topunit);
 		try {
-			setState(27);
+			setState(29);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(25);
+				setState(27);
 				define();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(26);
+				setState(28);
 				apply();
 				}
 				break;
@@ -188,17 +188,14 @@ public class PeazeParser extends Parser {
 
 	public static class LambdaContext extends ParserRuleContext {
 		public TerminalNode LAMBDA() { return getToken(PeazeParser.LAMBDA, 0); }
+		public SequenceContext sequence() {
+			return getRuleContext(SequenceContext.class,0);
+		}
 		public List<SymbolContext> symbol() {
 			return getRuleContexts(SymbolContext.class);
 		}
 		public SymbolContext symbol(int i) {
 			return getRuleContext(SymbolContext.class,i);
-		}
-		public List<ExprContext> expr() {
-			return getRuleContexts(ExprContext.class);
-		}
-		public ExprContext expr(int i) {
-			return getRuleContext(ExprContext.class,i);
 		}
 		public LambdaContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -213,43 +210,31 @@ public class PeazeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(29);
-			match(LPAREN);
-			setState(30);
-			match(LAMBDA);
 			setState(31);
 			match(LPAREN);
-			setState(33); 
+			setState(32);
+			match(LAMBDA);
+			setState(33);
+			match(LPAREN);
+			setState(35); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(32);
+				setState(34);
 				symbol();
 				}
 				}
-				setState(35); 
+				setState(37); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==SYMBOL );
-			setState(37);
+			setState(39);
 			match(RPAREN);
-			setState(39); 
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			do {
-				{
-				{
-				setState(38);
-				expr();
-				}
-				}
-				setState(41); 
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LPAREN) | (1L << Digits) | (1L << BooleanLiteral) | (1L << DecimalLiteral) | (1L << SYMBOL))) != 0) );
-			setState(43);
+			setState(40);
+			sequence();
+			setState(41);
 			match(RPAREN);
 			}
 		}
@@ -265,20 +250,48 @@ public class PeazeParser extends Parser {
 	}
 
 	public static class DefineContext extends ParserRuleContext {
+		public DefineContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_define; }
+	 
+		public DefineContext() { }
+		public void copyFrom(DefineContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class FuncDefineContext extends DefineContext {
 		public TerminalNode DEFINE() { return getToken(PeazeParser.DEFINE, 0); }
+		public SequenceContext sequence() {
+			return getRuleContext(SequenceContext.class,0);
+		}
 		public List<SymbolContext> symbol() {
 			return getRuleContexts(SymbolContext.class);
 		}
 		public SymbolContext symbol(int i) {
 			return getRuleContext(SymbolContext.class,i);
 		}
+		public FuncDefineContext(DefineContext ctx) { copyFrom(ctx); }
+	}
+	public static class LambdaDefineContext extends DefineContext {
+		public TerminalNode DEFINE() { return getToken(PeazeParser.DEFINE, 0); }
+		public SymbolContext symbol() {
+			return getRuleContext(SymbolContext.class,0);
+		}
+		public LambdaContext lambda() {
+			return getRuleContext(LambdaContext.class,0);
+		}
+		public LambdaDefineContext(DefineContext ctx) { copyFrom(ctx); }
+	}
+	public static class VarDefineContext extends DefineContext {
+		public TerminalNode DEFINE() { return getToken(PeazeParser.DEFINE, 0); }
+		public SymbolContext symbol() {
+			return getRuleContext(SymbolContext.class,0);
+		}
 		public ExprContext expr() {
 			return getRuleContext(ExprContext.class,0);
 		}
-		public DefineContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_define; }
+		public VarDefineContext(DefineContext ctx) { copyFrom(ctx); }
 	}
 
 	public final DefineContext define() throws RecognitionException {
@@ -286,52 +299,70 @@ public class PeazeParser extends Parser {
 		enterRule(_localctx, 6, RULE_define);
 		int _la;
 		try {
-			setState(63);
+			setState(67);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
 			case 1:
+				_localctx = new FuncDefineContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
+				setState(43);
+				match(LPAREN);
+				setState(44);
+				match(DEFINE);
 				setState(45);
 				match(LPAREN);
-				setState(46);
-				match(DEFINE);
-				setState(47);
-				symbol();
-				setState(48);
-				expr();
-				setState(49);
-				match(RPAREN);
-				}
-				break;
-			case 2:
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(51);
-				match(LPAREN);
-				setState(52);
-				match(DEFINE);
-				setState(53);
-				match(LPAREN);
-				setState(55); 
+				setState(47); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				do {
 					{
 					{
-					setState(54);
+					setState(46);
 					symbol();
 					}
 					}
-					setState(57); 
+					setState(49); 
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				} while ( _la==SYMBOL );
+				setState(51);
+				match(RPAREN);
+				setState(52);
+				sequence();
+				setState(53);
+				match(RPAREN);
+				}
+				break;
+			case 2:
+				_localctx = new LambdaDefineContext(_localctx);
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(55);
+				match(LPAREN);
+				setState(56);
+				match(DEFINE);
+				setState(57);
+				symbol();
+				setState(58);
+				lambda();
 				setState(59);
 				match(RPAREN);
-				setState(60);
-				expr();
+				}
+				break;
+			case 3:
+				_localctx = new VarDefineContext(_localctx);
+				enterOuterAlt(_localctx, 3);
+				{
 				setState(61);
+				match(LPAREN);
+				setState(62);
+				match(DEFINE);
+				setState(63);
+				symbol();
+				setState(64);
+				expr();
+				setState(65);
 				match(RPAREN);
 				}
 				break;
@@ -349,6 +380,38 @@ public class PeazeParser extends Parser {
 	}
 
 	public static class ApplyContext extends ParserRuleContext {
+		public ApplyContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_apply; }
+	 
+		public ApplyContext() { }
+		public void copyFrom(ApplyContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class ExprApplyContext extends ApplyContext {
+		public List<ExprContext> expr() {
+			return getRuleContexts(ExprContext.class);
+		}
+		public ExprContext expr(int i) {
+			return getRuleContext(ExprContext.class,i);
+		}
+		public ExprApplyContext(ApplyContext ctx) { copyFrom(ctx); }
+	}
+	public static class LambdaApplyContext extends ApplyContext {
+		public LambdaContext lambda() {
+			return getRuleContext(LambdaContext.class,0);
+		}
+		public List<ExprContext> expr() {
+			return getRuleContexts(ExprContext.class);
+		}
+		public ExprContext expr(int i) {
+			return getRuleContext(ExprContext.class,i);
+		}
+		public LambdaApplyContext(ApplyContext ctx) { copyFrom(ctx); }
+	}
+	public static class BuiltinApplyContext extends ApplyContext {
 		public BuiltinContext builtin() {
 			return getRuleContext(BuiltinContext.class,0);
 		}
@@ -358,13 +421,7 @@ public class PeazeParser extends Parser {
 		public ExprContext expr(int i) {
 			return getRuleContext(ExprContext.class,i);
 		}
-		public LambdaContext lambda() {
-			return getRuleContext(LambdaContext.class,0);
-		}
-		public ApplyContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_apply; }
+		public BuiltinApplyContext(ApplyContext ctx) { copyFrom(ctx); }
 	}
 
 	public final ApplyContext apply() throws RecognitionException {
@@ -372,84 +429,152 @@ public class PeazeParser extends Parser {
 		enterRule(_localctx, 8, RULE_apply);
 		int _la;
 		try {
-			setState(95);
+			setState(99);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,9,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,8,_ctx) ) {
 			case 1:
+				_localctx = new BuiltinApplyContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(65);
+				setState(69);
 				match(LPAREN);
-				setState(66);
-				builtin();
 				setState(70);
+				builtin();
+				setState(74);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LPAREN) | (1L << Digits) | (1L << BooleanLiteral) | (1L << DecimalLiteral) | (1L << SYMBOL))) != 0)) {
 					{
 					{
-					setState(67);
+					setState(71);
 					expr();
 					}
 					}
-					setState(72);
+					setState(76);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
-				setState(73);
+				setState(77);
 				match(RPAREN);
 				}
 				break;
 			case 2:
+				_localctx = new LambdaApplyContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(75);
+				setState(79);
 				match(LPAREN);
-				setState(76);
-				lambda();
 				setState(80);
+				lambda();
+				setState(84);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LPAREN) | (1L << Digits) | (1L << BooleanLiteral) | (1L << DecimalLiteral) | (1L << SYMBOL))) != 0)) {
 					{
 					{
-					setState(77);
+					setState(81);
 					expr();
 					}
 					}
-					setState(82);
+					setState(86);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
-				setState(83);
+				setState(87);
 				match(RPAREN);
 				}
 				break;
 			case 3:
+				_localctx = new ExprApplyContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(85);
+				setState(89);
 				match(LPAREN);
-				setState(86);
-				expr();
 				setState(90);
+				expr();
+				setState(94);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LPAREN) | (1L << Digits) | (1L << BooleanLiteral) | (1L << DecimalLiteral) | (1L << SYMBOL))) != 0)) {
 					{
 					{
-					setState(87);
+					setState(91);
 					expr();
 					}
 					}
-					setState(92);
+					setState(96);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
-				setState(93);
+				setState(97);
 				match(RPAREN);
 				}
 				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class SequenceContext extends ParserRuleContext {
+		public List<DefineContext> define() {
+			return getRuleContexts(DefineContext.class);
+		}
+		public DefineContext define(int i) {
+			return getRuleContext(DefineContext.class,i);
+		}
+		public List<ExprContext> expr() {
+			return getRuleContexts(ExprContext.class);
+		}
+		public ExprContext expr(int i) {
+			return getRuleContext(ExprContext.class,i);
+		}
+		public SequenceContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_sequence; }
+	}
+
+	public final SequenceContext sequence() throws RecognitionException {
+		SequenceContext _localctx = new SequenceContext(_ctx, getState());
+		enterRule(_localctx, 10, RULE_sequence);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(103); 
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			do {
+				{
+				setState(103);
+				_errHandler.sync(this);
+				switch ( getInterpreter().adaptivePredict(_input,9,_ctx) ) {
+				case 1:
+					{
+					setState(101);
+					define();
+					}
+					break;
+				case 2:
+					{
+					setState(102);
+					expr();
+					}
+					break;
+				}
+				}
+				setState(105); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LPAREN) | (1L << Digits) | (1L << BooleanLiteral) | (1L << DecimalLiteral) | (1L << SYMBOL))) != 0) );
 			}
 		}
 		catch (RecognitionException re) {
@@ -484,36 +609,36 @@ public class PeazeParser extends Parser {
 
 	public final ExprContext expr() throws RecognitionException {
 		ExprContext _localctx = new ExprContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_expr);
+		enterRule(_localctx, 12, RULE_expr);
 		try {
-			setState(101);
+			setState(111);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,10,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,11,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(97);
+				setState(107);
 				literal();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(98);
+				setState(108);
 				symbol();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(99);
+				setState(109);
 				lambda();
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(100);
+				setState(110);
 				apply();
 				}
 				break;
@@ -539,13 +664,13 @@ public class PeazeParser extends Parser {
 
 	public final EmptyContext empty() throws RecognitionException {
 		EmptyContext _localctx = new EmptyContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_empty);
+		enterRule(_localctx, 14, RULE_empty);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(103);
+			setState(113);
 			match(LPAREN);
-			setState(104);
+			setState(114);
 			match(RPAREN);
 			}
 		}
@@ -573,12 +698,12 @@ public class PeazeParser extends Parser {
 
 	public final BuiltinContext builtin() throws RecognitionException {
 		BuiltinContext _localctx = new BuiltinContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_builtin);
+		enterRule(_localctx, 16, RULE_builtin);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(106);
+			setState(116);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ADD) | (1L << SUB) | (1L << MUL) | (1L << DIV))) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -612,47 +737,47 @@ public class PeazeParser extends Parser {
 			super.copyFrom(ctx);
 		}
 	}
-	public static class IntegerContext extends LiteralContext {
-		public TerminalNode Digits() { return getToken(PeazeParser.Digits, 0); }
-		public IntegerContext(LiteralContext ctx) { copyFrom(ctx); }
-	}
-	public static class DecimalContext extends LiteralContext {
-		public TerminalNode DecimalLiteral() { return getToken(PeazeParser.DecimalLiteral, 0); }
-		public DecimalContext(LiteralContext ctx) { copyFrom(ctx); }
-	}
-	public static class BooleanContext extends LiteralContext {
+	public static class BooleanLiteralContext extends LiteralContext {
 		public TerminalNode BooleanLiteral() { return getToken(PeazeParser.BooleanLiteral, 0); }
-		public BooleanContext(LiteralContext ctx) { copyFrom(ctx); }
+		public BooleanLiteralContext(LiteralContext ctx) { copyFrom(ctx); }
+	}
+	public static class DecimalLiteralContext extends LiteralContext {
+		public TerminalNode DecimalLiteral() { return getToken(PeazeParser.DecimalLiteral, 0); }
+		public DecimalLiteralContext(LiteralContext ctx) { copyFrom(ctx); }
+	}
+	public static class IntegerLiteralContext extends LiteralContext {
+		public TerminalNode Digits() { return getToken(PeazeParser.Digits, 0); }
+		public IntegerLiteralContext(LiteralContext ctx) { copyFrom(ctx); }
 	}
 
 	public final LiteralContext literal() throws RecognitionException {
 		LiteralContext _localctx = new LiteralContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_literal);
+		enterRule(_localctx, 18, RULE_literal);
 		try {
-			setState(111);
+			setState(121);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case Digits:
-				_localctx = new IntegerContext(_localctx);
+				_localctx = new IntegerLiteralContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(108);
+				setState(118);
 				match(Digits);
 				}
 				break;
 			case BooleanLiteral:
-				_localctx = new BooleanContext(_localctx);
+				_localctx = new BooleanLiteralContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(109);
+				setState(119);
 				match(BooleanLiteral);
 				}
 				break;
 			case DecimalLiteral:
-				_localctx = new DecimalContext(_localctx);
+				_localctx = new DecimalLiteralContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(110);
+				setState(120);
 				match(DecimalLiteral);
 				}
 				break;
@@ -681,11 +806,11 @@ public class PeazeParser extends Parser {
 
 	public final SymbolContext symbol() throws RecognitionException {
 		SymbolContext _localctx = new SymbolContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_symbol);
+		enterRule(_localctx, 20, RULE_symbol);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(113);
+			setState(123);
 			match(SYMBOL);
 			}
 		}
@@ -701,35 +826,37 @@ public class PeazeParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3#v\4\2\t\2\4\3\t\3"+
-		"\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\3\2"+
-		"\6\2\30\n\2\r\2\16\2\31\3\3\3\3\5\3\36\n\3\3\4\3\4\3\4\3\4\6\4$\n\4\r"+
-		"\4\16\4%\3\4\3\4\6\4*\n\4\r\4\16\4+\3\4\3\4\3\5\3\5\3\5\3\5\3\5\3\5\3"+
-		"\5\3\5\3\5\3\5\6\5:\n\5\r\5\16\5;\3\5\3\5\3\5\3\5\5\5B\n\5\3\6\3\6\3\6"+
-		"\7\6G\n\6\f\6\16\6J\13\6\3\6\3\6\3\6\3\6\3\6\7\6Q\n\6\f\6\16\6T\13\6\3"+
-		"\6\3\6\3\6\3\6\3\6\7\6[\n\6\f\6\16\6^\13\6\3\6\3\6\5\6b\n\6\3\7\3\7\3"+
-		"\7\3\7\5\7h\n\7\3\b\3\b\3\b\3\t\3\t\3\n\3\n\3\n\5\nr\n\n\3\13\3\13\3\13"+
-		"\2\2\f\2\4\6\b\n\f\16\20\22\24\2\3\3\2\22\25\2{\2\27\3\2\2\2\4\35\3\2"+
-		"\2\2\6\37\3\2\2\2\bA\3\2\2\2\na\3\2\2\2\fg\3\2\2\2\16i\3\2\2\2\20l\3\2"+
-		"\2\2\22q\3\2\2\2\24s\3\2\2\2\26\30\5\4\3\2\27\26\3\2\2\2\30\31\3\2\2\2"+
-		"\31\27\3\2\2\2\31\32\3\2\2\2\32\3\3\2\2\2\33\36\5\b\5\2\34\36\5\n\6\2"+
-		"\35\33\3\2\2\2\35\34\3\2\2\2\36\5\3\2\2\2\37 \7\5\2\2 !\7\3\2\2!#\7\5"+
-		"\2\2\"$\5\24\13\2#\"\3\2\2\2$%\3\2\2\2%#\3\2\2\2%&\3\2\2\2&\'\3\2\2\2"+
-		"\')\7\6\2\2(*\5\f\7\2)(\3\2\2\2*+\3\2\2\2+)\3\2\2\2+,\3\2\2\2,-\3\2\2"+
-		"\2-.\7\6\2\2.\7\3\2\2\2/\60\7\5\2\2\60\61\7\4\2\2\61\62\5\24\13\2\62\63"+
-		"\5\f\7\2\63\64\7\6\2\2\64B\3\2\2\2\65\66\7\5\2\2\66\67\7\4\2\2\679\7\5"+
-		"\2\28:\5\24\13\298\3\2\2\2:;\3\2\2\2;9\3\2\2\2;<\3\2\2\2<=\3\2\2\2=>\7"+
-		"\6\2\2>?\5\f\7\2?@\7\6\2\2@B\3\2\2\2A/\3\2\2\2A\65\3\2\2\2B\t\3\2\2\2"+
-		"CD\7\5\2\2DH\5\20\t\2EG\5\f\7\2FE\3\2\2\2GJ\3\2\2\2HF\3\2\2\2HI\3\2\2"+
-		"\2IK\3\2\2\2JH\3\2\2\2KL\7\6\2\2Lb\3\2\2\2MN\7\5\2\2NR\5\6\4\2OQ\5\f\7"+
-		"\2PO\3\2\2\2QT\3\2\2\2RP\3\2\2\2RS\3\2\2\2SU\3\2\2\2TR\3\2\2\2UV\7\6\2"+
-		"\2Vb\3\2\2\2WX\7\5\2\2X\\\5\f\7\2Y[\5\f\7\2ZY\3\2\2\2[^\3\2\2\2\\Z\3\2"+
-		"\2\2\\]\3\2\2\2]_\3\2\2\2^\\\3\2\2\2_`\7\6\2\2`b\3\2\2\2aC\3\2\2\2aM\3"+
-		"\2\2\2aW\3\2\2\2b\13\3\2\2\2ch\5\22\n\2dh\5\24\13\2eh\5\6\4\2fh\5\n\6"+
-		"\2gc\3\2\2\2gd\3\2\2\2ge\3\2\2\2gf\3\2\2\2h\r\3\2\2\2ij\7\5\2\2jk\7\6"+
-		"\2\2k\17\3\2\2\2lm\t\2\2\2m\21\3\2\2\2nr\7\32\2\2or\7\33\2\2pr\7\34\2"+
-		"\2qn\3\2\2\2qo\3\2\2\2qp\3\2\2\2r\23\3\2\2\2st\7\35\2\2t\25\3\2\2\2\16"+
-		"\31\35%+;AHR\\agq";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3#\u0080\4\2\t\2\4"+
+		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
+		"\13\4\f\t\f\3\2\6\2\32\n\2\r\2\16\2\33\3\3\3\3\5\3 \n\3\3\4\3\4\3\4\3"+
+		"\4\6\4&\n\4\r\4\16\4\'\3\4\3\4\3\4\3\4\3\5\3\5\3\5\3\5\6\5\62\n\5\r\5"+
+		"\16\5\63\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3"+
+		"\5\5\5F\n\5\3\6\3\6\3\6\7\6K\n\6\f\6\16\6N\13\6\3\6\3\6\3\6\3\6\3\6\7"+
+		"\6U\n\6\f\6\16\6X\13\6\3\6\3\6\3\6\3\6\3\6\7\6_\n\6\f\6\16\6b\13\6\3\6"+
+		"\3\6\5\6f\n\6\3\7\3\7\6\7j\n\7\r\7\16\7k\3\b\3\b\3\b\3\b\5\br\n\b\3\t"+
+		"\3\t\3\t\3\n\3\n\3\13\3\13\3\13\5\13|\n\13\3\f\3\f\3\f\2\2\r\2\4\6\b\n"+
+		"\f\16\20\22\24\26\2\3\3\2\22\25\2\u0086\2\31\3\2\2\2\4\37\3\2\2\2\6!\3"+
+		"\2\2\2\bE\3\2\2\2\ne\3\2\2\2\fi\3\2\2\2\16q\3\2\2\2\20s\3\2\2\2\22v\3"+
+		"\2\2\2\24{\3\2\2\2\26}\3\2\2\2\30\32\5\4\3\2\31\30\3\2\2\2\32\33\3\2\2"+
+		"\2\33\31\3\2\2\2\33\34\3\2\2\2\34\3\3\2\2\2\35 \5\b\5\2\36 \5\n\6\2\37"+
+		"\35\3\2\2\2\37\36\3\2\2\2 \5\3\2\2\2!\"\7\5\2\2\"#\7\3\2\2#%\7\5\2\2$"+
+		"&\5\26\f\2%$\3\2\2\2&\'\3\2\2\2\'%\3\2\2\2\'(\3\2\2\2()\3\2\2\2)*\7\6"+
+		"\2\2*+\5\f\7\2+,\7\6\2\2,\7\3\2\2\2-.\7\5\2\2./\7\4\2\2/\61\7\5\2\2\60"+
+		"\62\5\26\f\2\61\60\3\2\2\2\62\63\3\2\2\2\63\61\3\2\2\2\63\64\3\2\2\2\64"+
+		"\65\3\2\2\2\65\66\7\6\2\2\66\67\5\f\7\2\678\7\6\2\28F\3\2\2\29:\7\5\2"+
+		"\2:;\7\4\2\2;<\5\26\f\2<=\5\6\4\2=>\7\6\2\2>F\3\2\2\2?@\7\5\2\2@A\7\4"+
+		"\2\2AB\5\26\f\2BC\5\16\b\2CD\7\6\2\2DF\3\2\2\2E-\3\2\2\2E9\3\2\2\2E?\3"+
+		"\2\2\2F\t\3\2\2\2GH\7\5\2\2HL\5\22\n\2IK\5\16\b\2JI\3\2\2\2KN\3\2\2\2"+
+		"LJ\3\2\2\2LM\3\2\2\2MO\3\2\2\2NL\3\2\2\2OP\7\6\2\2Pf\3\2\2\2QR\7\5\2\2"+
+		"RV\5\6\4\2SU\5\16\b\2TS\3\2\2\2UX\3\2\2\2VT\3\2\2\2VW\3\2\2\2WY\3\2\2"+
+		"\2XV\3\2\2\2YZ\7\6\2\2Zf\3\2\2\2[\\\7\5\2\2\\`\5\16\b\2]_\5\16\b\2^]\3"+
+		"\2\2\2_b\3\2\2\2`^\3\2\2\2`a\3\2\2\2ac\3\2\2\2b`\3\2\2\2cd\7\6\2\2df\3"+
+		"\2\2\2eG\3\2\2\2eQ\3\2\2\2e[\3\2\2\2f\13\3\2\2\2gj\5\b\5\2hj\5\16\b\2"+
+		"ig\3\2\2\2ih\3\2\2\2jk\3\2\2\2ki\3\2\2\2kl\3\2\2\2l\r\3\2\2\2mr\5\24\13"+
+		"\2nr\5\26\f\2or\5\6\4\2pr\5\n\6\2qm\3\2\2\2qn\3\2\2\2qo\3\2\2\2qp\3\2"+
+		"\2\2r\17\3\2\2\2st\7\5\2\2tu\7\6\2\2u\21\3\2\2\2vw\t\2\2\2w\23\3\2\2\2"+
+		"x|\7\32\2\2y|\7\33\2\2z|\7\34\2\2{x\3\2\2\2{y\3\2\2\2{z\3\2\2\2|\25\3"+
+		"\2\2\2}~\7\35\2\2~\27\3\2\2\2\17\33\37\'\63ELV`eikq{";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

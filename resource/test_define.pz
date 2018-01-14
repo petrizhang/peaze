@@ -10,3 +10,18 @@
 
 (define sub (lambda (a b) (- a b)))
 
+
+;;; test internal define
+
+(define f (lambda (x)
+  (define y x)
+  (define z y)
+  z))
+
+(define (g x)
+  (define y x)
+  (define z y)
+  z)
+
+(f 1) ;;; 1
+(g 1) ;;; 1
