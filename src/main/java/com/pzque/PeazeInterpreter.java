@@ -124,14 +124,34 @@ public class PeazeInterpreter {
     }
 
     public PeazeValue evalExprApply(ExprApplyContext ctx) {
-        ExprContext functionCtx = ctx.expr(0);
+        // TODO push a env to envStack
+        List<ExprContext> exprList = ctx.expr();
+
+        ExprContext functionCtx = exprList.remove(0);
         PeazeValue functionValue = this.evalExpr(functionCtx);
 
         // check if the expression is applicable
         RuntimeChecker.CheckNotApplicable(functionCtx, functionValue);
 
         PeazeFunction function = functionValue.asFunction();
+        ArrayList<PeazeValue> paramValues = new ArrayList<>();
 
+        for (ExprContext exprCtx : exprList) {
+            PeazeValue value = this.evalExpr(exprCtx);
+            paramValues.add(value);
+        }
+
+        // check if the param number matches expected
+        RuntimeChecker.CheckParamNotMatch(ctx, function, paramValues);
+        List<String> params = function.getParams();
+        SequenceContext body = function.getBody();
+        PeazeEnv env = function.getEnv();
+
+        int paramCount = function.getParamCount();
+        for (int i = 0; i < paramCount; i++) {
+            env.insert(params.get(i), paramValues.get(i));
+        }
+        // TODO eval function body
         return PeazeValue.UNDEFINED;
     }
 
@@ -142,6 +162,7 @@ public class PeazeInterpreter {
     public PeazeValue evalLambdaApply(LambdaApplyContext ctx) {
         return PeazeValue.UNDEFINED;
     }
+
 
     /* --------------- eval symbol reference --------------- */
     public PeazeValue evalSymbolReference(SymbolContext ctx) {

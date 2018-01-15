@@ -23,6 +23,10 @@ public class PeazeFunction {
         return body;
     }
 
+    public int getParamCount() {
+        return params.size();
+    }
+
     private PeazeEnv env;
     private List<String> params;
     private SequenceContext body;
