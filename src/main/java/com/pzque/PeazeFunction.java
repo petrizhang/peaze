@@ -11,6 +11,18 @@ public class PeazeFunction {
         this.body = body;
     }
 
+    public PeazeEnv getEnv() {
+        return env;
+    }
+
+    public List<String> getParams() {
+        return params;
+    }
+
+    public SequenceContext getBody() {
+        return body;
+    }
+
     private PeazeEnv env;
     private List<String> params;
     private SequenceContext body;

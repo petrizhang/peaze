@@ -28,11 +28,15 @@ public class PeazeInterpreter {
     /* ---------------eval function call --------------- */
     public PeazeValue evalExprApply(ExprApplyContext ctx) {
         ExprContext functionCtx = ctx.expr(0);
-        PeazeValue function = this.eval(functionCtx);
+        PeazeValue functionValue = this.eval(functionCtx);
 
-        if (!function.getType().isApplicable()) {
-            PeazeError.notApplicable(functionCtx);
+        // check if the expression is applicable
+        if (!functionValue.getType().isApplicable()) {
+            PeazeError.NotApplicable(functionCtx);
         }
+
+        PeazeFunction function = functionValue.asFunction();
+
         return PeazeValue.UNDEFINED;
     }
 
@@ -60,9 +64,9 @@ public class PeazeInterpreter {
         return this.funcDefHelp(funcName, symbolContextList, body);
     }
 
-    public PeazeValue funcDefHelp(String funcName,
-                                  List<SymbolContext> paramSymbolContextList,
-                                  SequenceContext body) {
+    private PeazeValue funcDefHelp(String funcName,
+                                   List<SymbolContext> paramSymbolContextList,
+                                   SequenceContext body) {
         // create environment for function
         PeazeEnv env = new PeazeEnv(this.getCurEnv());
         // fetch param names from paramSymbolContextList
