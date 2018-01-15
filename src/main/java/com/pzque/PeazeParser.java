@@ -429,7 +429,7 @@ public class PeazeParser extends Parser {
 		enterRule(_localctx, 8, RULE_apply);
 		int _la;
 		try {
-			setState(99);
+			setState(97);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,8,_ctx) ) {
 			case 1:
@@ -490,23 +490,21 @@ public class PeazeParser extends Parser {
 				{
 				setState(89);
 				match(LPAREN);
-				setState(90);
-				expr();
-				setState(94);
+				setState(91); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LPAREN) | (1L << Digits) | (1L << BooleanLiteral) | (1L << DecimalLiteral) | (1L << SYMBOL))) != 0)) {
+				do {
 					{
 					{
-					setState(91);
+					setState(90);
 					expr();
 					}
 					}
-					setState(96);
+					setState(93); 
 					_errHandler.sync(this);
 					_la = _input.LA(1);
-				}
-				setState(97);
+				} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LPAREN) | (1L << Digits) | (1L << BooleanLiteral) | (1L << DecimalLiteral) | (1L << SYMBOL))) != 0) );
+				setState(95);
 				match(RPAREN);
 				}
 				break;
@@ -549,29 +547,29 @@ public class PeazeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(103); 
+			setState(101); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
-				setState(103);
+				setState(101);
 				_errHandler.sync(this);
 				switch ( getInterpreter().adaptivePredict(_input,9,_ctx) ) {
 				case 1:
 					{
-					setState(101);
+					setState(99);
 					define();
 					}
 					break;
 				case 2:
 					{
-					setState(102);
+					setState(100);
 					expr();
 					}
 					break;
 				}
 				}
-				setState(105); 
+				setState(103); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LPAREN) | (1L << Digits) | (1L << BooleanLiteral) | (1L << DecimalLiteral) | (1L << SYMBOL))) != 0) );
@@ -611,34 +609,34 @@ public class PeazeParser extends Parser {
 		ExprContext _localctx = new ExprContext(_ctx, getState());
 		enterRule(_localctx, 12, RULE_expr);
 		try {
-			setState(111);
+			setState(109);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,11,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(107);
+				setState(105);
 				literal();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(108);
+				setState(106);
 				symbol();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(109);
+				setState(107);
 				lambda();
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(110);
+				setState(108);
 				apply();
 				}
 				break;
@@ -668,9 +666,9 @@ public class PeazeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(113);
+			setState(111);
 			match(LPAREN);
-			setState(114);
+			setState(112);
 			match(RPAREN);
 			}
 		}
@@ -703,7 +701,7 @@ public class PeazeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(116);
+			setState(114);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ADD) | (1L << SUB) | (1L << MUL) | (1L << DIV))) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -754,14 +752,14 @@ public class PeazeParser extends Parser {
 		LiteralContext _localctx = new LiteralContext(_ctx, getState());
 		enterRule(_localctx, 18, RULE_literal);
 		try {
-			setState(121);
+			setState(119);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case Digits:
 				_localctx = new IntegerLiteralContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(118);
+				setState(116);
 				match(Digits);
 				}
 				break;
@@ -769,7 +767,7 @@ public class PeazeParser extends Parser {
 				_localctx = new BooleanLiteralContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(119);
+				setState(117);
 				match(BooleanLiteral);
 				}
 				break;
@@ -777,7 +775,7 @@ public class PeazeParser extends Parser {
 				_localctx = new DecimalLiteralContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(120);
+				setState(118);
 				match(DecimalLiteral);
 				}
 				break;
@@ -810,7 +808,7 @@ public class PeazeParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(123);
+			setState(121);
 			match(SYMBOL);
 			}
 		}
@@ -826,37 +824,37 @@ public class PeazeParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3#\u0080\4\2\t\2\4"+
-		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
-		"\13\4\f\t\f\3\2\6\2\32\n\2\r\2\16\2\33\3\3\3\3\5\3 \n\3\3\4\3\4\3\4\3"+
-		"\4\6\4&\n\4\r\4\16\4\'\3\4\3\4\3\4\3\4\3\5\3\5\3\5\3\5\6\5\62\n\5\r\5"+
-		"\16\5\63\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3"+
-		"\5\5\5F\n\5\3\6\3\6\3\6\7\6K\n\6\f\6\16\6N\13\6\3\6\3\6\3\6\3\6\3\6\7"+
-		"\6U\n\6\f\6\16\6X\13\6\3\6\3\6\3\6\3\6\3\6\7\6_\n\6\f\6\16\6b\13\6\3\6"+
-		"\3\6\5\6f\n\6\3\7\3\7\6\7j\n\7\r\7\16\7k\3\b\3\b\3\b\3\b\5\br\n\b\3\t"+
-		"\3\t\3\t\3\n\3\n\3\13\3\13\3\13\5\13|\n\13\3\f\3\f\3\f\2\2\r\2\4\6\b\n"+
-		"\f\16\20\22\24\26\2\3\3\2\22\25\2\u0086\2\31\3\2\2\2\4\37\3\2\2\2\6!\3"+
-		"\2\2\2\bE\3\2\2\2\ne\3\2\2\2\fi\3\2\2\2\16q\3\2\2\2\20s\3\2\2\2\22v\3"+
-		"\2\2\2\24{\3\2\2\2\26}\3\2\2\2\30\32\5\4\3\2\31\30\3\2\2\2\32\33\3\2\2"+
-		"\2\33\31\3\2\2\2\33\34\3\2\2\2\34\3\3\2\2\2\35 \5\b\5\2\36 \5\n\6\2\37"+
-		"\35\3\2\2\2\37\36\3\2\2\2 \5\3\2\2\2!\"\7\5\2\2\"#\7\3\2\2#%\7\5\2\2$"+
-		"&\5\26\f\2%$\3\2\2\2&\'\3\2\2\2\'%\3\2\2\2\'(\3\2\2\2()\3\2\2\2)*\7\6"+
-		"\2\2*+\5\f\7\2+,\7\6\2\2,\7\3\2\2\2-.\7\5\2\2./\7\4\2\2/\61\7\5\2\2\60"+
-		"\62\5\26\f\2\61\60\3\2\2\2\62\63\3\2\2\2\63\61\3\2\2\2\63\64\3\2\2\2\64"+
-		"\65\3\2\2\2\65\66\7\6\2\2\66\67\5\f\7\2\678\7\6\2\28F\3\2\2\29:\7\5\2"+
-		"\2:;\7\4\2\2;<\5\26\f\2<=\5\6\4\2=>\7\6\2\2>F\3\2\2\2?@\7\5\2\2@A\7\4"+
-		"\2\2AB\5\26\f\2BC\5\16\b\2CD\7\6\2\2DF\3\2\2\2E-\3\2\2\2E9\3\2\2\2E?\3"+
-		"\2\2\2F\t\3\2\2\2GH\7\5\2\2HL\5\22\n\2IK\5\16\b\2JI\3\2\2\2KN\3\2\2\2"+
-		"LJ\3\2\2\2LM\3\2\2\2MO\3\2\2\2NL\3\2\2\2OP\7\6\2\2Pf\3\2\2\2QR\7\5\2\2"+
-		"RV\5\6\4\2SU\5\16\b\2TS\3\2\2\2UX\3\2\2\2VT\3\2\2\2VW\3\2\2\2WY\3\2\2"+
-		"\2XV\3\2\2\2YZ\7\6\2\2Zf\3\2\2\2[\\\7\5\2\2\\`\5\16\b\2]_\5\16\b\2^]\3"+
-		"\2\2\2_b\3\2\2\2`^\3\2\2\2`a\3\2\2\2ac\3\2\2\2b`\3\2\2\2cd\7\6\2\2df\3"+
-		"\2\2\2eG\3\2\2\2eQ\3\2\2\2e[\3\2\2\2f\13\3\2\2\2gj\5\b\5\2hj\5\16\b\2"+
-		"ig\3\2\2\2ih\3\2\2\2jk\3\2\2\2ki\3\2\2\2kl\3\2\2\2l\r\3\2\2\2mr\5\24\13"+
-		"\2nr\5\26\f\2or\5\6\4\2pr\5\n\6\2qm\3\2\2\2qn\3\2\2\2qo\3\2\2\2qp\3\2"+
-		"\2\2r\17\3\2\2\2st\7\5\2\2tu\7\6\2\2u\21\3\2\2\2vw\t\2\2\2w\23\3\2\2\2"+
-		"x|\7\32\2\2y|\7\33\2\2z|\7\34\2\2{x\3\2\2\2{y\3\2\2\2{z\3\2\2\2|\25\3"+
-		"\2\2\2}~\7\35\2\2~\27\3\2\2\2\17\33\37\'\63ELV`eikq{";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3#~\4\2\t\2\4\3\t\3"+
+		"\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f"+
+		"\t\f\3\2\6\2\32\n\2\r\2\16\2\33\3\3\3\3\5\3 \n\3\3\4\3\4\3\4\3\4\6\4&"+
+		"\n\4\r\4\16\4\'\3\4\3\4\3\4\3\4\3\5\3\5\3\5\3\5\6\5\62\n\5\r\5\16\5\63"+
+		"\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5F"+
+		"\n\5\3\6\3\6\3\6\7\6K\n\6\f\6\16\6N\13\6\3\6\3\6\3\6\3\6\3\6\7\6U\n\6"+
+		"\f\6\16\6X\13\6\3\6\3\6\3\6\3\6\6\6^\n\6\r\6\16\6_\3\6\3\6\5\6d\n\6\3"+
+		"\7\3\7\6\7h\n\7\r\7\16\7i\3\b\3\b\3\b\3\b\5\bp\n\b\3\t\3\t\3\t\3\n\3\n"+
+		"\3\13\3\13\3\13\5\13z\n\13\3\f\3\f\3\f\2\2\r\2\4\6\b\n\f\16\20\22\24\26"+
+		"\2\3\3\2\22\25\2\u0084\2\31\3\2\2\2\4\37\3\2\2\2\6!\3\2\2\2\bE\3\2\2\2"+
+		"\nc\3\2\2\2\fg\3\2\2\2\16o\3\2\2\2\20q\3\2\2\2\22t\3\2\2\2\24y\3\2\2\2"+
+		"\26{\3\2\2\2\30\32\5\4\3\2\31\30\3\2\2\2\32\33\3\2\2\2\33\31\3\2\2\2\33"+
+		"\34\3\2\2\2\34\3\3\2\2\2\35 \5\b\5\2\36 \5\n\6\2\37\35\3\2\2\2\37\36\3"+
+		"\2\2\2 \5\3\2\2\2!\"\7\5\2\2\"#\7\3\2\2#%\7\5\2\2$&\5\26\f\2%$\3\2\2\2"+
+		"&\'\3\2\2\2\'%\3\2\2\2\'(\3\2\2\2()\3\2\2\2)*\7\6\2\2*+\5\f\7\2+,\7\6"+
+		"\2\2,\7\3\2\2\2-.\7\5\2\2./\7\4\2\2/\61\7\5\2\2\60\62\5\26\f\2\61\60\3"+
+		"\2\2\2\62\63\3\2\2\2\63\61\3\2\2\2\63\64\3\2\2\2\64\65\3\2\2\2\65\66\7"+
+		"\6\2\2\66\67\5\f\7\2\678\7\6\2\28F\3\2\2\29:\7\5\2\2:;\7\4\2\2;<\5\26"+
+		"\f\2<=\5\6\4\2=>\7\6\2\2>F\3\2\2\2?@\7\5\2\2@A\7\4\2\2AB\5\26\f\2BC\5"+
+		"\16\b\2CD\7\6\2\2DF\3\2\2\2E-\3\2\2\2E9\3\2\2\2E?\3\2\2\2F\t\3\2\2\2G"+
+		"H\7\5\2\2HL\5\22\n\2IK\5\16\b\2JI\3\2\2\2KN\3\2\2\2LJ\3\2\2\2LM\3\2\2"+
+		"\2MO\3\2\2\2NL\3\2\2\2OP\7\6\2\2Pd\3\2\2\2QR\7\5\2\2RV\5\6\4\2SU\5\16"+
+		"\b\2TS\3\2\2\2UX\3\2\2\2VT\3\2\2\2VW\3\2\2\2WY\3\2\2\2XV\3\2\2\2YZ\7\6"+
+		"\2\2Zd\3\2\2\2[]\7\5\2\2\\^\5\16\b\2]\\\3\2\2\2^_\3\2\2\2_]\3\2\2\2_`"+
+		"\3\2\2\2`a\3\2\2\2ab\7\6\2\2bd\3\2\2\2cG\3\2\2\2cQ\3\2\2\2c[\3\2\2\2d"+
+		"\13\3\2\2\2eh\5\b\5\2fh\5\16\b\2ge\3\2\2\2gf\3\2\2\2hi\3\2\2\2ig\3\2\2"+
+		"\2ij\3\2\2\2j\r\3\2\2\2kp\5\24\13\2lp\5\26\f\2mp\5\6\4\2np\5\n\6\2ok\3"+
+		"\2\2\2ol\3\2\2\2om\3\2\2\2on\3\2\2\2p\17\3\2\2\2qr\7\5\2\2rs\7\6\2\2s"+
+		"\21\3\2\2\2tu\t\2\2\2u\23\3\2\2\2vz\7\32\2\2wz\7\33\2\2xz\7\34\2\2yv\3"+
+		"\2\2\2yw\3\2\2\2yx\3\2\2\2z\25\3\2\2\2{|\7\35\2\2|\27\3\2\2\2\17\33\37"+
+		"\'\63ELV_cgioy";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

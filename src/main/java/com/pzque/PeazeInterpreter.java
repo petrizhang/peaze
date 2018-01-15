@@ -5,13 +5,20 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class PeazeInterpreter {
     private PeazeEnv GlobalEnv;
-    private PeazeEnv CurEnv;
+    private Stack<PeazeEnv> envStack;
+
+    private PeazeEnv getCurEnv() {
+        return envStack.lastElement();
+    }
 
     public PeazeInterpreter() {
         this.GlobalEnv = new PeazeEnv(null);
+        this.envStack = new Stack<>();
+        envStack.push(GlobalEnv);
     }
 
     public PeazeValue eval(ParseTree ast) {
@@ -20,6 +27,12 @@ public class PeazeInterpreter {
 
     /* ---------------eval function call --------------- */
     public PeazeValue evalExprApply(ExprApplyContext ctx) {
+        ExprContext functionCtx = ctx.expr(0);
+        PeazeValue function = this.eval(functionCtx);
+
+        if (!function.getType().isApplicable()) {
+            PeazeError.notApplicable(functionCtx);
+        }
         return PeazeValue.UNDEFINED;
     }
 
@@ -50,21 +63,25 @@ public class PeazeInterpreter {
     public PeazeValue funcDefHelp(String funcName,
                                   List<SymbolContext> paramSymbolContextList,
                                   SequenceContext body) {
-        PeazeEnv env = new PeazeEnv(this.CurEnv);
-        paramSymbolContextList.size();
+        // create environment for function
+        PeazeEnv env = new PeazeEnv(this.getCurEnv());
+        // fetch param names from paramSymbolContextList
         List<String> nameList = new ArrayList<>();
         for (SymbolContext symbolContext : paramSymbolContextList)
             nameList.add(symbolContext.getText());
+        // create a PeazeFunction from environment, params and function body
         PeazeFunction function = new PeazeFunction(env, nameList, body);
+        // wrap the function in a PeazeValue
         PeazeValue value = new PeazeValue(function);
-        this.CurEnv.insert(funcName, value);
+        // insert new symbol(the function) to current environment
+        this.getCurEnv().insert(funcName, value);
         return PeazeValue.UNDEFINED;
     }
 
     public PeazeValue evalVarDefine(VarDefineContext ctx) {
         String name = ctx.symbol().getText();
         PeazeValue value = this.eval(ctx.expr());
-        this.CurEnv.insert(name, value);
+        this.getCurEnv().insert(name, value);
         return PeazeValue.UNDEFINED;
     }
 

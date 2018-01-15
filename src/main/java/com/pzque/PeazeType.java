@@ -11,5 +11,10 @@ enum PeazeType {
     BUILTIN_OP,
     FUNCTION,
     NULL,
-    UNDEFINED
+    UNDEFINED;
+
+    boolean isApplicable(){
+        return this == PeazeType.BUILTIN_OP
+                || this == PeazeType.FUNCTION;
+    }
 }

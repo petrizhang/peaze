@@ -20,7 +20,7 @@ define
 apply
     : '(' builtin expr* ')'  # BuiltinApply
     | '(' lambda expr* ')'   # LambdaApply
-    | '(' expr expr* ')'     # ExprApply
+    | '(' expr+ ')'          # ExprApply
     ;
 
 sequence
