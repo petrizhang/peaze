@@ -62,6 +62,21 @@ public class PeazeInterpreterTest extends TestCase {
     }
 
     public void testEvalVarDefine() throws Exception {
+        String code = "(define x 1)";
+        ParserRuleContext ctx = TestUtil.genParser(code).define();
+
+        this.interpreter.evalVarDefine((VarDefineContext) ctx);
+        PeazeEnv env = this.interpreter.getCurEnv();
+        assertTrue(env.contains("x"));
+        assertTrue(env.lookup("x").getType() == PeazeType.INTEGER);
+
+        try {
+            code = "(define x 2)";
+            ctx = TestUtil.genParser(code).define();
+            this.interpreter.evalVarDefine((VarDefineContext) ctx);
+        } catch (PeazeException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 
 

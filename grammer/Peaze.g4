@@ -3,8 +3,8 @@ grammar Peaze;
 program : topunit+;
 
 topunit
-    :  define
-    |  apply
+    :  define # DefineTopunit
+    |  apply  # ApplyTopunit
     ;
 
 lambda
@@ -28,10 +28,10 @@ sequence
     ;
 
 expr
-    :  literal
-    |  symbol
-    |  lambda
-    |  apply
+    :  literal  # LiteralExpr
+    |  symbol   # SymbolExpr
+    |  lambda   # LambdaExpr
+    |  apply    # ApplyExpr
     ;
 
 empty : '(' ')';

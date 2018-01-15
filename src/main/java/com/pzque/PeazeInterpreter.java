@@ -1,7 +1,6 @@
 package com.pzque;
 
 import com.pzque.PeazeParser.*;
-import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,32 +21,6 @@ public class PeazeInterpreter {
         this.checker = new SyntaxChecker();
         envStack.push(GlobalEnv);
     }
-
-    public PeazeValue eval(ParseTree ast) {
-        return PeazeValue.UNDEFINED;
-    }
-
-    /* ---------------eval function call --------------- */
-    public PeazeValue evalExprApply(ExprApplyContext ctx) {
-        ExprContext functionCtx = ctx.expr(0);
-        PeazeValue functionValue = this.eval(functionCtx);
-
-        // check if the expression is applicable
-        RuntimeChecker.CheckNotApplicable(functionCtx, functionValue);
-
-        PeazeFunction function = functionValue.asFunction();
-
-        return PeazeValue.UNDEFINED;
-    }
-
-    public PeazeValue evalBuiltinApply(BuiltinApplyContext ctx) {
-        return PeazeValue.UNDEFINED;
-    }
-
-    public PeazeValue evalLambdaApply(LambdaApplyContext ctx) {
-        return PeazeValue.UNDEFINED;
-    }
-
 
     /* --------------- eval definition --------------- */
     public PeazeValue evalLambdaDefine(LambdaDefineContext ctx) {
@@ -71,30 +44,125 @@ public class PeazeInterpreter {
     private PeazeValue funcDefHelp(String funcName,
                                    List<SymbolContext> paramSymbolContextList,
                                    SequenceContext body) {
+        PeazeValue value = this.newFunctionValue(paramSymbolContextList, body);
+        // insert new symbol(the function) to current environment
+        this.getCurEnv().insert(funcName, value);
+        return PeazeValue.UNDEFINED;
+    }
+
+    private PeazeValue newFunctionValue(List<SymbolContext> paramSymbolContextList, SequenceContext body) {
         // create environment for function
         PeazeEnv env = new PeazeEnv(this.getCurEnv());
-        // fetch param names from paramSymbolContextList
         List<String> nameList = new ArrayList<>();
         for (SymbolContext symbolContext : paramSymbolContextList)
             nameList.add(symbolContext.getText());
         // create a PeazeFunction from environment, params and function body
         PeazeFunction function = new PeazeFunction(env, nameList, body);
         // wrap the function in a PeazeValue
-        PeazeValue value = new PeazeValue(function);
-        // insert new symbol(the function) to current environment
-        this.getCurEnv().insert(funcName, value);
-        return PeazeValue.UNDEFINED;
+        return new PeazeValue(function);
     }
 
     public PeazeValue evalVarDefine(VarDefineContext ctx) {
+        PeazeEnv env = this.getCurEnv();
         String name = ctx.symbol().getText();
-
-        PeazeValue value = this.eval(ctx.expr());
-        this.getCurEnv().insert(name, value);
+        // check if the variable is re-defined
+        RuntimeChecker.CheckVariableReDefine(ctx, env, name);
+        PeazeValue value = this.evalExpr(ctx.expr());
+        env.insert(name, value);
         return PeazeValue.UNDEFINED;
     }
 
+    /* --------------- eval expr --------------- */
+    public PeazeValue evalExpr(ExprContext ctx) {
+        if (ctx instanceof LiteralExprContext) {
+            return this.evalLiteralExpr((LiteralExprContext) ctx);
+        } else if (ctx instanceof SymbolExprContext) {
+            return this.evalSymbolExpr((SymbolExprContext) ctx);
+        } else if (ctx instanceof LambdaExprContext) {
+            return this.evalLambdaExpr((LambdaExprContext) ctx);
+        } else if (ctx instanceof ApplyExprContext) {
+            return this.evalApplyExpr((ApplyExprContext) ctx);
+        }
+
+        throw Utils.WrongBranch;
+    }
+
+    public PeazeValue evalLiteralExpr(LiteralExprContext ctx) {
+        return this.evalLiteral(ctx.literal());
+    }
+
+    public PeazeValue evalSymbolExpr(SymbolExprContext ctx) {
+        return this.evalSymbolReference(ctx.symbol());
+    }
+
+    public PeazeValue evalLambdaExpr(LambdaExprContext ctx) {
+        return this.evalLambda(ctx.lambda());
+    }
+
+    public PeazeValue evalLambda(LambdaContext ctx) {
+        SequenceContext body = ctx.sequence();
+        // check if the sequence ends with a expression
+        SyntaxChecker.CheckInvalidSequence(ctx);
+        List<SymbolContext> paramSymbolContextList = ctx.symbol();
+        return this.newFunctionValue(paramSymbolContextList, body);
+    }
+
+    public PeazeValue evalApplyExpr(ApplyExprContext ctx) {
+        return this.evalApply(ctx.apply());
+    }
+
+    /* ---------------eval function call --------------- */
+    public PeazeValue evalApply(ApplyContext ctx) {
+        if (ctx instanceof ExprApplyContext) {
+            return this.evalExprApply((ExprApplyContext) ctx);
+        } else if (ctx instanceof BuiltinApplyContext) {
+            return this.evalBuiltinApply((BuiltinApplyContext) ctx);
+        } else if (ctx instanceof LambdaApplyContext) {
+            return this.evalLambdaApply((LambdaApplyContext) ctx);
+        }
+        throw Utils.WrongBranch;
+    }
+
+    public PeazeValue evalExprApply(ExprApplyContext ctx) {
+        ExprContext functionCtx = ctx.expr(0);
+        PeazeValue functionValue = this.evalExpr(functionCtx);
+
+        // check if the expression is applicable
+        RuntimeChecker.CheckNotApplicable(functionCtx, functionValue);
+
+        PeazeFunction function = functionValue.asFunction();
+
+        return PeazeValue.UNDEFINED;
+    }
+
+    public PeazeValue evalBuiltinApply(BuiltinApplyContext ctx) {
+        return PeazeValue.UNDEFINED;
+    }
+
+    public PeazeValue evalLambdaApply(LambdaApplyContext ctx) {
+        return PeazeValue.UNDEFINED;
+    }
+
+    /* --------------- eval symbol reference --------------- */
+    public PeazeValue evalSymbolReference(SymbolContext ctx) {
+        // TODO check if the variable exists
+        String varName = ctx.getText();
+        return this.getCurEnv().lookup(varName);
+    }
+
     /* --------------- eval literal --------------- */
+    public PeazeValue evalLiteral(LiteralContext ctx) {
+        if (ctx instanceof IntegerLiteralContext) {
+            return this.evalIntegerLiteral((IntegerLiteralContext) ctx);
+        } else if (ctx instanceof BooleanLiteralContext) {
+            return this.evalBooleanLiteral((BooleanLiteralContext) ctx);
+        } else if (ctx instanceof DecimalLiteralContext) {
+            return this.evalDecimalLiteral((DecimalLiteralContext) ctx);
+        }
+
+        throw Utils.WrongBranch;
+    }
+
     public PeazeValue evalIntegerLiteral(IntegerLiteralContext ctx) {
         String text = ctx.getText();
         Integer value = Integer.parseInt(text, 10);

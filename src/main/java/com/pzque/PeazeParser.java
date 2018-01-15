@@ -103,6 +103,11 @@ public class PeazeParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_program; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitProgram(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final ProgramContext program() throws RecognitionException {
@@ -140,16 +145,37 @@ public class PeazeParser extends Parser {
 	}
 
 	public static class TopunitContext extends ParserRuleContext {
-		public DefineContext define() {
-			return getRuleContext(DefineContext.class,0);
-		}
-		public ApplyContext apply() {
-			return getRuleContext(ApplyContext.class,0);
-		}
 		public TopunitContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_topunit; }
+	 
+		public TopunitContext() { }
+		public void copyFrom(TopunitContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class ApplyTopunitContext extends TopunitContext {
+		public ApplyContext apply() {
+			return getRuleContext(ApplyContext.class,0);
+		}
+		public ApplyTopunitContext(TopunitContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitApplyTopunit(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class DefineTopunitContext extends TopunitContext {
+		public DefineContext define() {
+			return getRuleContext(DefineContext.class,0);
+		}
+		public DefineTopunitContext(TopunitContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitDefineTopunit(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final TopunitContext topunit() throws RecognitionException {
@@ -160,6 +186,7 @@ public class PeazeParser extends Parser {
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
 			case 1:
+				_localctx = new DefineTopunitContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(27);
@@ -167,6 +194,7 @@ public class PeazeParser extends Parser {
 				}
 				break;
 			case 2:
+				_localctx = new ApplyTopunitContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(28);
@@ -201,6 +229,11 @@ public class PeazeParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_lambda; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitLambda(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final LambdaContext lambda() throws RecognitionException {
@@ -272,6 +305,11 @@ public class PeazeParser extends Parser {
 			return getRuleContext(SymbolContext.class,i);
 		}
 		public FuncDefineContext(DefineContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitFuncDefine(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 	public static class LambdaDefineContext extends DefineContext {
 		public TerminalNode DEFINE() { return getToken(PeazeParser.DEFINE, 0); }
@@ -282,6 +320,11 @@ public class PeazeParser extends Parser {
 			return getRuleContext(LambdaContext.class,0);
 		}
 		public LambdaDefineContext(DefineContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitLambdaDefine(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 	public static class VarDefineContext extends DefineContext {
 		public TerminalNode DEFINE() { return getToken(PeazeParser.DEFINE, 0); }
@@ -292,6 +335,11 @@ public class PeazeParser extends Parser {
 			return getRuleContext(ExprContext.class,0);
 		}
 		public VarDefineContext(DefineContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitVarDefine(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final DefineContext define() throws RecognitionException {
@@ -398,6 +446,11 @@ public class PeazeParser extends Parser {
 			return getRuleContext(ExprContext.class,i);
 		}
 		public ExprApplyContext(ApplyContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitExprApply(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 	public static class LambdaApplyContext extends ApplyContext {
 		public LambdaContext lambda() {
@@ -410,6 +463,11 @@ public class PeazeParser extends Parser {
 			return getRuleContext(ExprContext.class,i);
 		}
 		public LambdaApplyContext(ApplyContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitLambdaApply(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 	public static class BuiltinApplyContext extends ApplyContext {
 		public BuiltinContext builtin() {
@@ -422,6 +480,11 @@ public class PeazeParser extends Parser {
 			return getRuleContext(ExprContext.class,i);
 		}
 		public BuiltinApplyContext(ApplyContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitBuiltinApply(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final ApplyContext apply() throws RecognitionException {
@@ -538,6 +601,11 @@ public class PeazeParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_sequence; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitSequence(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final SequenceContext sequence() throws RecognitionException {
@@ -587,22 +655,59 @@ public class PeazeParser extends Parser {
 	}
 
 	public static class ExprContext extends ParserRuleContext {
-		public LiteralContext literal() {
-			return getRuleContext(LiteralContext.class,0);
-		}
-		public SymbolContext symbol() {
-			return getRuleContext(SymbolContext.class,0);
-		}
-		public LambdaContext lambda() {
-			return getRuleContext(LambdaContext.class,0);
-		}
-		public ApplyContext apply() {
-			return getRuleContext(ApplyContext.class,0);
-		}
 		public ExprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_expr; }
+	 
+		public ExprContext() { }
+		public void copyFrom(ExprContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class ApplyExprContext extends ExprContext {
+		public ApplyContext apply() {
+			return getRuleContext(ApplyContext.class,0);
+		}
+		public ApplyExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitApplyExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class LambdaExprContext extends ExprContext {
+		public LambdaContext lambda() {
+			return getRuleContext(LambdaContext.class,0);
+		}
+		public LambdaExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitLambdaExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class LiteralExprContext extends ExprContext {
+		public LiteralContext literal() {
+			return getRuleContext(LiteralContext.class,0);
+		}
+		public LiteralExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitLiteralExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class SymbolExprContext extends ExprContext {
+		public SymbolContext symbol() {
+			return getRuleContext(SymbolContext.class,0);
+		}
+		public SymbolExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitSymbolExpr(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final ExprContext expr() throws RecognitionException {
@@ -613,6 +718,7 @@ public class PeazeParser extends Parser {
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,11,_ctx) ) {
 			case 1:
+				_localctx = new LiteralExprContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(105);
@@ -620,6 +726,7 @@ public class PeazeParser extends Parser {
 				}
 				break;
 			case 2:
+				_localctx = new SymbolExprContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(106);
@@ -627,6 +734,7 @@ public class PeazeParser extends Parser {
 				}
 				break;
 			case 3:
+				_localctx = new LambdaExprContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(107);
@@ -634,6 +742,7 @@ public class PeazeParser extends Parser {
 				}
 				break;
 			case 4:
+				_localctx = new ApplyExprContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(108);
@@ -658,6 +767,11 @@ public class PeazeParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_empty; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitEmpty(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final EmptyContext empty() throws RecognitionException {
@@ -692,6 +806,11 @@ public class PeazeParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_builtin; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitBuiltin(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final BuiltinContext builtin() throws RecognitionException {
@@ -738,14 +857,29 @@ public class PeazeParser extends Parser {
 	public static class BooleanLiteralContext extends LiteralContext {
 		public TerminalNode BooleanLiteral() { return getToken(PeazeParser.BooleanLiteral, 0); }
 		public BooleanLiteralContext(LiteralContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitBooleanLiteral(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 	public static class DecimalLiteralContext extends LiteralContext {
 		public TerminalNode DecimalLiteral() { return getToken(PeazeParser.DecimalLiteral, 0); }
 		public DecimalLiteralContext(LiteralContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitDecimalLiteral(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 	public static class IntegerLiteralContext extends LiteralContext {
 		public TerminalNode Digits() { return getToken(PeazeParser.Digits, 0); }
 		public IntegerLiteralContext(LiteralContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitIntegerLiteral(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final LiteralContext literal() throws RecognitionException {
@@ -800,6 +934,11 @@ public class PeazeParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_symbol; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitSymbol(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final SymbolContext symbol() throws RecognitionException {

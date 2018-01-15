@@ -8,6 +8,8 @@ import org.antlr.v4.runtime.misc.Interval;
 
 public class Utils {
 
+    static final RuntimeException WrongBranch = new RuntimeException("Code reach wrong branch");
+
     public static String getPosString(ParserRuleContext ctx) {
         Token start = ctx.getStart();
         Token end = ctx.getStop();
