@@ -7,7 +7,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
  * The type Peaze error.
  */
 public class PeazeError {
-    private static void runtimeError(String errName, String msg, ParserRuleContext ctx) {
+    public static void runtimeError(String errName, String msg, ParserRuleContext ctx) {
         PeazeError.error("Runtime Error", errName, msg, ctx);
         throw new PeazeException(msg);
     }

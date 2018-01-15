@@ -10,7 +10,7 @@ import java.util.Stack;
 public class PeazeInterpreter {
     private PeazeEnv GlobalEnv;
     private Stack<PeazeEnv> envStack;
-    private PeazeChecker checker;
+    private SyntaxChecker checker;
 
     public PeazeEnv getCurEnv() {
         return envStack.lastElement();
@@ -19,7 +19,7 @@ public class PeazeInterpreter {
     public PeazeInterpreter() {
         this.GlobalEnv = new PeazeEnv(null);
         this.envStack = new Stack<>();
-        this.checker = new PeazeChecker();
+        this.checker = new SyntaxChecker();
         envStack.push(GlobalEnv);
     }
 
@@ -33,7 +33,7 @@ public class PeazeInterpreter {
         PeazeValue functionValue = this.eval(functionCtx);
 
         // check if the expression is applicable
-        checker.checkRuntime("NotApplicable", functionCtx, functionValue);
+        RuntimeChecker.CheckNotApplicable(functionCtx, functionValue);
 
         PeazeFunction function = functionValue.asFunction();
 
@@ -55,7 +55,7 @@ public class PeazeInterpreter {
         List<SymbolContext> paramSymbolContextList = ctx.lambda().symbol();
         SequenceContext body = ctx.lambda().sequence();
         // check if the sequence ends with a expression
-        this.checker.checkSyntax("InvalidSequence", body);
+        SyntaxChecker.CheckInvalidSequence(body);
         return this.funcDefHelp(funcName, paramSymbolContextList, body);
     }
 
@@ -63,7 +63,7 @@ public class PeazeInterpreter {
         List<SymbolContext> symbolContextList = ctx.symbol();
         SequenceContext body = ctx.sequence();
         // check if the sequence ends with a expression
-        this.checker.checkSyntax("InvalidSequence", body);
+        SyntaxChecker.CheckInvalidSequence(body);
         String funcName = symbolContextList.remove(0).getText();
         return this.funcDefHelp(funcName, symbolContextList, body);
     }
@@ -88,6 +88,7 @@ public class PeazeInterpreter {
 
     public PeazeValue evalVarDefine(VarDefineContext ctx) {
         String name = ctx.symbol().getText();
+
         PeazeValue value = this.eval(ctx.expr());
         this.getCurEnv().insert(name, value);
         return PeazeValue.UNDEFINED;
