@@ -12,7 +12,7 @@ public class PeazeInterpreter {
     private Stack<PeazeEnv> envStack;
     private PeazeChecker checker;
 
-    private PeazeEnv getCurEnv() {
+    public PeazeEnv getCurEnv() {
         return envStack.lastElement();
     }
 

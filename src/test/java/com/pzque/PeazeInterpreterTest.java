@@ -5,17 +5,15 @@ import junit.framework.TestSuite;
 import junit.framework.TestCase;
 
 import com.pzque.PeazeParser.*;
+import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.util.function.Function;
 
-/**
- * PeazeInterpreter Tester.
- *
- * @author <Authors name>
- * @version 1.0
- * @since <pre>01/14/2018</pre>
- */
 public class PeazeInterpreterTest extends TestCase {
+    public void testEval() throws Exception {
+    }
+
+
     private PeazeInterpreter interpreter = new PeazeInterpreter();
 
     public PeazeInterpreterTest(String name) {
@@ -31,44 +29,42 @@ public class PeazeInterpreterTest extends TestCase {
         super.tearDown();
     }
 
-    /**
-     * Method: evalExprApply(ExprApplyContext ctx)
-     */
     public void testEvalExprApply() throws Exception {
-//TODO: Test goes here... 
+
     }
 
-    /**
-     * Method: evalBuiltinApply(BuiltinApplyContext ctx)
-     */
     public void testEvalBuiltinApply() throws Exception {
-//TODO: Test goes here... 
+
     }
 
-    /**
-     * Method: evalLambdaApply(LambdaApplyContext ctx)
-     */
     public void testEvalLambdaApply() throws Exception {
-//TODO: Test goes here... 
     }
 
-    /**
-     * Method: evalFuncDefine(FuncDefineContext ctx)
-     */
     public void testEvalFuncDefine() throws Exception {
-//TODO: Test goes here... 
+
     }
 
-    /**
-     * Method: evalVarDefine(VarDefineContext ctx)
-     */
+    public void testEvalLambdaDefine() throws Exception {
+        String code = "(define add (lambda (x y) (+ x y)))";
+        ParserRuleContext ctx = TestUtil.genParser(code).define();
+
+        this.interpreter.evalLambdaDefine((LambdaDefineContext) ctx);
+        PeazeEnv env = this.interpreter.getCurEnv();
+        assertTrue(env.contains("add"));
+        assertTrue(env.lookup("add").getType() == PeazeType.FUNCTION);
+        try {
+            code = "(define add (lambda (x y) (+ x y) (define t 1)))";
+            ctx = TestUtil.genParser(code).define();
+            this.interpreter.evalLambdaDefine((LambdaDefineContext) ctx);
+        } catch (PeazeException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
     public void testEvalVarDefine() throws Exception {
-//TODO: Test goes here... 
     }
 
-    /**
-     * Method: evalIntegerLiteral(IntegerLiteralContext ctx)
-     */
+
     public void testEvalIntegerLiteral() throws Exception {
         String[] codes = {"1", "100", "100000", "9999999"};
         Integer[] results = {1, 100, 100000, 9999999};
@@ -86,9 +82,6 @@ public class PeazeInterpreterTest extends TestCase {
         }
     }
 
-    /**
-     * Method: evalBooleanLiteral(BooleanLiteralContext ctx)
-     */
     public void testEvalBooleanLiteral() throws Exception {
         String[] codes = {"true", "false"};
         Boolean[] results = {true, false};
@@ -106,9 +99,6 @@ public class PeazeInterpreterTest extends TestCase {
         }
     }
 
-    /**
-     * Method: evalDecimalLiteral(DecimalLiteralContext ctx)
-     */
     public void testEvalDecimalLiteral() throws Exception {
         String[] codes = {"1.1", "1.23", "1.243", "123123123.123"};
         Double[] results = {1.1, 1.23, 1.243, 123123123.123};
