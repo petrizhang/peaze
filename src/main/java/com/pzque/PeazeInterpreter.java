@@ -10,6 +10,7 @@ import java.util.Stack;
 public class PeazeInterpreter {
     private PeazeEnv GlobalEnv;
     private Stack<PeazeEnv> envStack;
+    private PeazeChecker checker;
 
     private PeazeEnv getCurEnv() {
         return envStack.lastElement();
@@ -18,6 +19,7 @@ public class PeazeInterpreter {
     public PeazeInterpreter() {
         this.GlobalEnv = new PeazeEnv(null);
         this.envStack = new Stack<>();
+        this.checker = new PeazeChecker();
         envStack.push(GlobalEnv);
     }
 
@@ -31,9 +33,7 @@ public class PeazeInterpreter {
         PeazeValue functionValue = this.eval(functionCtx);
 
         // check if the expression is applicable
-        if (!functionValue.getType().isApplicable()) {
-            PeazeError.NotApplicable(functionCtx);
-        }
+        checker.checkRuntime("NotApplicable", functionCtx, functionValue);
 
         PeazeFunction function = functionValue.asFunction();
 
@@ -54,12 +54,16 @@ public class PeazeInterpreter {
         String funcName = ctx.symbol().getText();
         List<SymbolContext> paramSymbolContextList = ctx.lambda().symbol();
         SequenceContext body = ctx.lambda().sequence();
+        // check if the sequence ends with a expression
+        this.checker.checkSyntax("InvalidSequence", body);
         return this.funcDefHelp(funcName, paramSymbolContextList, body);
     }
 
     public PeazeValue evalFuncDefine(FuncDefineContext ctx) {
         List<SymbolContext> symbolContextList = ctx.symbol();
         SequenceContext body = ctx.sequence();
+        // check if the sequence ends with a expression
+        this.checker.checkSyntax("InvalidSequence", body);
         String funcName = symbolContextList.remove(0).getText();
         return this.funcDefHelp(funcName, symbolContextList, body);
     }

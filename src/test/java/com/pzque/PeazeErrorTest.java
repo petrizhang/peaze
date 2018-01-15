@@ -25,31 +25,6 @@ public class PeazeErrorTest extends TestCase {
         super.tearDown();
     }
 
-    /**
-     * Method: NotApplicable(ParserRuleContext ctx)
-     */
-    public void testNotApplicable() throws Exception {
-        String code = "(define a 10)\n(define b   11)";
-        ParserRuleContext ctx = TestUtil.genParser(code).program();
-        try {
-            PeazeError.NotApplicable(ctx);
-        } catch (PeazeException ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
-
-
-    public void testInvalidSequence() throws Exception {
-        String code = "(define a 10)\n(define b   11)";
-        PeazeParser parser = TestUtil.genParser(code);
-        PeazeParser.SequenceContext ctx = parser.sequence();
-        try {
-            PeazeError.InvalidSequence(ctx);
-        } catch (PeazeException ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
-
     public static Test suite() {
         return new TestSuite(PeazeErrorTest.class);
     }

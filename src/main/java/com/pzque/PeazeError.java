@@ -7,33 +7,17 @@ import org.antlr.v4.runtime.ParserRuleContext;
  * The type Peaze error.
  */
 public class PeazeError {
-
-    /**
-     * Not applicable error.
-     *
-     * @param ctx the syntax tree of the expression
-     */
-    public static void NotApplicable(ParserRuleContext ctx) {
-        String msg = String.format("the expression is not applicable");
-        PeazeError.runtimeError("NotApplicable", msg, ctx);
-    }
-
-    public static void InvalidSequence(PeazeParser.SequenceContext ctx) {
-        String msg = "a sequence must be end with a expression";
-        PeazeError.syntaxError("InvalidSequence", msg, ctx);
-    }
-
     private static void runtimeError(String errName, String msg, ParserRuleContext ctx) {
         PeazeError.error("Runtime Error", errName, msg, ctx);
         throw new PeazeException(msg);
     }
 
-    private static void syntaxError(String errName, String msg, ParserRuleContext ctx) {
+    public static void syntaxError(String errName, String msg, ParserRuleContext ctx) {
         PeazeError.error("Syntax Error", errName, msg, ctx);
         throw new PeazeException(msg);
     }
 
-    private static void error(String kind, String errName, String msg, ParserRuleContext ctx) {
+    public static void error(String kind, String errName, String msg, ParserRuleContext ctx) {
         String pos = Utils.getPosString(ctx);
         String sourceCode = Utils.getOriginalText(ctx);
         msg = String.format("%s in %s: %s: %s:\n%s\n",

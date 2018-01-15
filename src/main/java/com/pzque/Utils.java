@@ -2,16 +2,9 @@ package com.pzque;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.RuleContext;
 import org.antlr.v4.runtime.Token;
-import com.pzque.PeazeParser.*;
 import org.antlr.v4.runtime.misc.Interval;
-import org.antlr.v4.runtime.tree.ParseTree;
 
-import java.io.InputStream;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Utils {
 
@@ -30,6 +23,16 @@ public class Utils {
         CharStream input = ctx.start.getInputStream();
         int start = ctx.start.getStartIndex();
         int stop = ctx.stop.getStopIndex();
-        return input.getText(new Interval(start,stop));
+        return input.getText(new Interval(start, stop));
     }
+}
+
+class Tuple<T1, T2> {
+    public Tuple(T1 _1, T2 _2) {
+        this._1 = _1;
+        this._2 = _2;
+    }
+
+    public T1 _1;
+    public T2 _2;
 }
