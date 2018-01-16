@@ -5,8 +5,8 @@ import java.util.List;
 import com.pzque.PeazeParser.*;
 
 public class PeazeFunction {
-    public PeazeFunction(PeazeEnv env, List<String> params, SequenceContext body) {
-        this.env = env;
+    public PeazeFunction(List<String> params, SequenceContext body) {
+        this.env = null;
         this.params = params;
         this.body = body;
     }
@@ -25,6 +25,10 @@ public class PeazeFunction {
 
     public int getParamCount() {
         return params.size();
+    }
+
+    public void setEnv(PeazeEnv env) {
+        this.env = env;
     }
 
     private PeazeEnv env;

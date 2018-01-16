@@ -51,7 +51,7 @@ class PeazeValue {
 
     public PeazeValue(PeazeFunction value) {
         assert value != null;
-        this.type = PeazeType.FUNCTION;
+        this.type = PeazeType.PROCEDURE;
         this.value = value;
     }
 
@@ -81,7 +81,7 @@ class PeazeValue {
 
     public void setFunction(PeazeFunction value) {
         assert value != null;
-        this.type = PeazeType.FUNCTION;
+        this.type = PeazeType.PROCEDURE;
         this.value = value;
     }
 
@@ -106,8 +106,13 @@ class PeazeValue {
     }
 
     public PeazeFunction asFunction() {
-        assert this.type == PeazeType.FUNCTION;
+        assert this.type == PeazeType.PROCEDURE;
         return (PeazeFunction) this.value;
+    }
+
+    @Override
+    public String toString() {
+        return this.value.toString();
     }
 
     static final PeazeValue NULL = new PeazeValue(PeazeType.NULL, null);

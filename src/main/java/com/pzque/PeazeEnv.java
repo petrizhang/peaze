@@ -75,4 +75,12 @@ public class PeazeEnv {
         }
         parent.update(name, value);
     }
+
+    boolean isGlobal() {
+        return this.parent == null;
+    }
+
+    public PeazeEnv getParent() {
+        return parent;
+    }
 }

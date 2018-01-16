@@ -31,12 +31,6 @@ public interface PeazeVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitApplyTopunit(PeazeParser.ApplyTopunitContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link PeazeParser#lambda}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLambda(PeazeParser.LambdaContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code FuncDefine}
 	 * labeled alternative in {@link PeazeParser#define}.
 	 * @param ctx the parse tree
@@ -58,32 +52,11 @@ public interface PeazeVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVarDefine(PeazeParser.VarDefineContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code BuiltinApply}
-	 * labeled alternative in {@link PeazeParser#apply}.
+	 * Visit a parse tree produced by {@link PeazeParser#apply}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitBuiltinApply(PeazeParser.BuiltinApplyContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code LambdaApply}
-	 * labeled alternative in {@link PeazeParser#apply}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLambdaApply(PeazeParser.LambdaApplyContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code ExprApply}
-	 * labeled alternative in {@link PeazeParser#apply}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExprApply(PeazeParser.ExprApplyContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link PeazeParser#sequence}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSequence(PeazeParser.SequenceContext ctx);
+	T visitApply(PeazeParser.ApplyContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code LiteralExpr}
 	 * labeled alternative in {@link PeazeParser#expr}.
@@ -92,12 +65,12 @@ public interface PeazeVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLiteralExpr(PeazeParser.LiteralExprContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code SymbolExpr}
+	 * Visit a parse tree produced by the {@code ApplyExpr}
 	 * labeled alternative in {@link PeazeParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSymbolExpr(PeazeParser.SymbolExprContext ctx);
+	T visitApplyExpr(PeazeParser.ApplyExprContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code LambdaExpr}
 	 * labeled alternative in {@link PeazeParser#expr}.
@@ -106,24 +79,24 @@ public interface PeazeVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLambdaExpr(PeazeParser.LambdaExprContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code ApplyExpr}
+	 * Visit a parse tree produced by the {@code VarRefExpr}
 	 * labeled alternative in {@link PeazeParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitApplyExpr(PeazeParser.ApplyExprContext ctx);
+	T visitVarRefExpr(PeazeParser.VarRefExprContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link PeazeParser#empty}.
+	 * Visit a parse tree produced by {@link PeazeParser#lambda}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitEmpty(PeazeParser.EmptyContext ctx);
+	T visitLambda(PeazeParser.LambdaContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link PeazeParser#builtin}.
+	 * Visit a parse tree produced by {@link PeazeParser#varRef}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitBuiltin(PeazeParser.BuiltinContext ctx);
+	T visitVarRef(PeazeParser.VarRefContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code IntegerLiteral}
 	 * labeled alternative in {@link PeazeParser#literal}.
@@ -146,9 +119,21 @@ public interface PeazeVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDecimalLiteral(PeazeParser.DecimalLiteralContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link PeazeParser#symbol}.
+	 * Visit a parse tree produced by {@link PeazeParser#sequence}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSymbol(PeazeParser.SymbolContext ctx);
+	T visitSequence(PeazeParser.SequenceContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PeazeParser#procedure}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitProcedure(PeazeParser.ProcedureContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PeazeParser#paramList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParamList(PeazeParser.ParamListContext ctx);
 }

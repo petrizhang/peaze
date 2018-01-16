@@ -35,7 +35,7 @@ public class PeazeTypeTest extends TestCase {
         assertFalse(PeazeType.NULL.isApplicable());
         assertFalse(PeazeType.UNDEFINED.isApplicable());
 
-        assertTrue(PeazeType.FUNCTION.isApplicable());
+        assertTrue(PeazeType.PROCEDURE.isApplicable());
         assertTrue(PeazeType.BUILTIN_OP.isApplicable());
     }
 

@@ -9,12 +9,12 @@ enum PeazeType {
     STRING,
     LIST,
     BUILTIN_OP,
-    FUNCTION,
+    PROCEDURE,
     NULL,
     UNDEFINED;
 
     boolean isApplicable(){
         return this == PeazeType.BUILTIN_OP
-                || this == PeazeType.FUNCTION;
+                || this == PeazeType.PROCEDURE;
     }
 }

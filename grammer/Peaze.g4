@@ -7,40 +7,29 @@ topunit
     |  apply  # ApplyTopunit
     ;
 
-lambda
-    :  '(' LAMBDA '(' symbol+ ')' sequence ')'
-    ;
-
 define
-    :  '(' DEFINE '(' symbol+ ')' sequence ')' # FuncDefine
-    |  '(' DEFINE symbol lambda ')'            # LambdaDefine
-    |  '(' DEFINE symbol expr ')'              # VarDefine
+    :  '(' DEFINE '(' ID paramList ')' sequence ')'  # FuncDefine
+    |  '(' DEFINE ID lambda ')'                      # LambdaDefine
+    |  '(' DEFINE ID expr ')'                        # VarDefine
     ;
 
 apply
-    : '(' builtin expr* ')'  # BuiltinApply
-    | '(' lambda expr* ')'   # LambdaApply
-    | '(' expr+ ')'          # ExprApply
-    ;
-
-sequence
-    :  (define|expr)+
+    : '(' procedure expr*')'
     ;
 
 expr
     :  literal  # LiteralExpr
-    |  symbol   # SymbolExpr
-    |  lambda   # LambdaExpr
     |  apply    # ApplyExpr
+    |  lambda   # LambdaExpr
+    |  varRef   # VarRefExpr
     ;
 
-empty : '(' ')';
+lambda
+    :  '(' LAMBDA '(' paramList ')' sequence ')'
+    ;
 
-builtin
-    :  ADD
-    |  SUB
-    |  MUL
-    |  DIV
+varRef
+    :  ID
     ;
 
 literal
@@ -49,9 +38,16 @@ literal
     |  DecimalLiteral # DecimalLiteral
     ;
 
-symbol
-    :  SYMBOL
+sequence
+   :  (define|expr)+
+   ;
+
+procedure : expr;
+
+paramList
+    : ID*
     ;
+
 
 //  Keywords
 LAMBDA : 'lambda';
@@ -63,45 +59,24 @@ LPAREN : '(';
 RPAREN : ')';
 
 //  Operators
-GT : '>';
-LT : '<';
-BANG : '!';
-TILDE : '~';
-EQUAL : '=';
-LE : '<=';
-GE : '>=';
-NOTEQUAL : '!=';
-AND : 'and';
-OR : 'or';
-XOR : 'xor';
-ADD : '+';
-SUB : '-';
-MUL : '*';
-DIV : '/';
-MOD : '%';
-BITAND : '&';
-BITOR : '|';
-CARET : '^';
+
 
 //  Integer Literals
 Digits : [0-9]+;
 
 BooleanLiteral
-    : 'true'
-    | 'false'
+    : '#t'
+    | '#f'
     ;
 
 DecimalLiteral
     : Digits '.' Digits
     ;
 
-SYMBOL
-    :  SYMBOL_HEAD [a-zA-Z0-9_$]*
+ID
+    :  [a-zA-Z0-9!$%&*+-./:<=>?@^_~]+
     ;
 
-SYMBOL_HEAD
-    :  [a-zA-Z_$]+
-    ;
 
 // Whitespace and comments
 
