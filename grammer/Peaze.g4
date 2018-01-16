@@ -8,7 +8,7 @@ topunit
     ;
 
 define
-    :  '(' DEFINE '(' ID paramList ')' sequence ')'  # FuncDefine
+    :  '(' DEFINE '(' ID paramList ')' sequence ')'  # ProcDefine
     |  '(' DEFINE ID lambda ')'                      # LambdaDefine
     |  '(' DEFINE ID expr ')'                        # VarDefine
     ;

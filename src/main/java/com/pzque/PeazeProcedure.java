@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.pzque.PeazeParser.*;
 
-public class PeazeFunction {
-    public PeazeFunction(List<String> params, SequenceContext body) {
+public class PeazeProcedure {
+    public PeazeProcedure(List<String> params, SequenceContext body) {
         this.env = null;
         this.params = params;
         this.body = body;

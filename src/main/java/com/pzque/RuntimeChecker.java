@@ -21,7 +21,7 @@ public class RuntimeChecker {
         }
     }
 
-    public static void CheckParamNotMatch(ParserRuleContext ctx, PeazeFunction function, List<PeazeValue> paramValues) {
+    public static void CheckParamNotMatch(ParserRuleContext ctx, PeazeProcedure function, List<PeazeValue> paramValues) {
         int expected = function.getParamCount();
         int given = paramValues.size();
         if (expected != given) {

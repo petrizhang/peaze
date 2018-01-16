@@ -59,26 +59,26 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeValue> {
     }
 
     @Override
-    public PeazeValue visitFuncDefine(PeazeParser.FuncDefineContext ctx) {
-        String funcName = ctx.ID().getText();
+    public PeazeValue visitProcDefine(PeazeParser.ProcDefineContext ctx) {
+        String procName = ctx.ID().getText();
         List<String> paramList = Utils.toStringList(ctx.paramList().ID());
         PeazeParser.SequenceContext body = ctx.sequence();
         // check if the sequence ends with a expression
         SyntaxChecker.CheckInvalidSequence(body);
-        PeazeValue funcValue = new PeazeValue(new PeazeFunction(paramList, body));
-        this.binds(ctx, funcName, funcValue);
+        PeazeValue procValue = new PeazeValue(new PeazeProcedure(paramList, body));
+        this.binds(ctx, procName, procValue);
         return PeazeValue.UNDEFINED;
     }
 
     @Override
     public PeazeValue visitLambdaDefine(PeazeParser.LambdaDefineContext ctx) {
-        String funcName = ctx.ID().getText();
+        String procName = ctx.ID().getText();
         List<String> paramList = Utils.toStringList(ctx.lambda().paramList().ID());
         PeazeParser.SequenceContext body = ctx.lambda().sequence();
         // check if the sequence ends with a expression
         SyntaxChecker.CheckInvalidSequence(body);
-        PeazeValue funcValue = new PeazeValue(new PeazeFunction(paramList, body));
-        this.binds(ctx, funcName, funcValue);
+        PeazeValue procValue = new PeazeValue(new PeazeProcedure(paramList, body));
+        this.binds(ctx, procName, procValue);
         return PeazeValue.UNDEFINED;
     }
 
@@ -94,11 +94,11 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeValue> {
     @Override
     public PeazeValue visitApply(PeazeParser.ApplyContext ctx) {
         // fetch the invoked expression
-        PeazeParser.ExprContext functionCtx = ctx.procedure().expr();
-        // eval the expression to fetch applicable PeazeFunction value
-        PeazeValue funcValue = this.eval(functionCtx);
+        PeazeParser.ExprContext procedureCtx = ctx.procedure().expr();
+        // eval the expression to fetch applicable PeazeProcedure value
+        PeazeValue procValue = this.eval(procedureCtx);
         // check if the expression is applicable
-        RuntimeChecker.CheckNotApplicable(functionCtx, funcValue);
+        RuntimeChecker.CheckNotApplicable(procedureCtx, procValue);
 
         // eval expressions to get parameters' values
         List<PeazeParser.ExprContext> paramExprList = ctx.expr();
@@ -108,9 +108,9 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeValue> {
             paramValues.add(value);
         }
 
-        // execute function body
-        PeazeFunction function = funcValue.asFunction();
-        return this.invoke(functionCtx, function, paramValues);
+        // execute procedure body
+        PeazeProcedure procedure = procValue.asProcedure();
+        return this.invoke(procedureCtx, procedure, paramValues);
     }
 
     @Override
@@ -139,7 +139,7 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeValue> {
         // check if the sequence ends with a expression
         SyntaxChecker.CheckInvalidSequence(ctx);
         List<String> paramList = Utils.toStringList(ctx.paramList().ID());
-        return new PeazeValue(new PeazeFunction(paramList, body));
+        return new PeazeValue(new PeazeProcedure(paramList, body));
     }
 
     @Override
@@ -188,27 +188,27 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeValue> {
      * Invoke peaze value.
      *
      * @param ctx         the ctx
-     * @param function    the function
+     * @param procedure    the procedure
      * @param paramValues the param values
      * @return the peaze value
      */
-    PeazeValue invoke(ParserRuleContext ctx, PeazeFunction function, List<PeazeValue> paramValues) {
+    PeazeValue invoke(ParserRuleContext ctx, PeazeProcedure procedure, List<PeazeValue> paramValues) {
         // check if the param number matches expected
-        RuntimeChecker.CheckParamNotMatch(ctx, function, paramValues);
+        RuntimeChecker.CheckParamNotMatch(ctx, procedure, paramValues);
 
         // init a new Env object and set it to curEnv
         PeazeEnv env = new PeazeEnv(this.curEnv);
         this.curEnv = env;
 
-        // insert parameters' values to the associated function environment
-        List<String> params = function.getParams();
-        int paramCount = function.getParamCount();
+        // insert parameters' values to the associated procedure environment
+        List<String> params = procedure.getParams();
+        int paramCount = procedure.getParamCount();
         for (int i = 0; i < paramCount; i++) {
             env.insert(params.get(i), paramValues.get(i));
         }
 
-        // execute function body
-        PeazeValue ret = this.evalSequence(function.getBody());
+        // execute procedure body
+        PeazeValue ret = this.evalSequence(procedure.getBody());
 
         // after execution, reset curEnv to previous level
         this.curEnv = env.getParent();

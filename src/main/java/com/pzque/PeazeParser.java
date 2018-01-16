@@ -217,7 +217,7 @@ public class PeazeParser extends Parser {
 			super.copyFrom(ctx);
 		}
 	}
-	public static class FuncDefineContext extends DefineContext {
+	public static class ProcDefineContext extends DefineContext {
 		public TerminalNode DEFINE() { return getToken(PeazeParser.DEFINE, 0); }
 		public TerminalNode ID() { return getToken(PeazeParser.ID, 0); }
 		public ParamListContext paramList() {
@@ -226,10 +226,10 @@ public class PeazeParser extends Parser {
 		public SequenceContext sequence() {
 			return getRuleContext(SequenceContext.class,0);
 		}
-		public FuncDefineContext(DefineContext ctx) { copyFrom(ctx); }
+		public ProcDefineContext(DefineContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitFuncDefine(this);
+			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitProcDefine(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -268,7 +268,7 @@ public class PeazeParser extends Parser {
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
 			case 1:
-				_localctx = new FuncDefineContext(_localctx);
+				_localctx = new ProcDefineContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(31);

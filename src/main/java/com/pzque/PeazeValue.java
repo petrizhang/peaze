@@ -49,7 +49,7 @@ class PeazeValue {
     }
 
 
-    public PeazeValue(PeazeFunction value) {
+    public PeazeValue(PeazeProcedure value) {
         assert value != null;
         this.type = PeazeType.PROCEDURE;
         this.value = value;
@@ -79,7 +79,7 @@ class PeazeValue {
         this.value = value;
     }
 
-    public void setFunction(PeazeFunction value) {
+    public void setFunction(PeazeProcedure value) {
         assert value != null;
         this.type = PeazeType.PROCEDURE;
         this.value = value;
@@ -105,9 +105,9 @@ class PeazeValue {
         return (Integer) this.value;
     }
 
-    public PeazeFunction asFunction() {
+    public PeazeProcedure asProcedure() {
         assert this.type == PeazeType.PROCEDURE;
-        return (PeazeFunction) this.value;
+        return (PeazeProcedure) this.value;
     }
 
     @Override

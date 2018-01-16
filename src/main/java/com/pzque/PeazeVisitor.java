@@ -31,12 +31,12 @@ public interface PeazeVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitApplyTopunit(PeazeParser.ApplyTopunitContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code FuncDefine}
+	 * Visit a parse tree produced by the {@code ProcDefine}
 	 * labeled alternative in {@link PeazeParser#define}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitFuncDefine(PeazeParser.FuncDefineContext ctx);
+	T visitProcDefine(PeazeParser.ProcDefineContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code LambdaDefine}
 	 * labeled alternative in {@link PeazeParser#define}.
