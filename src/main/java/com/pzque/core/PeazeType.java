@@ -1,6 +1,6 @@
-package com.pzque;
+package com.pzque.core;
 
-enum PeazeType {
+public enum PeazeType {
     BOOLEAN,
     CHARACTER,
     INTEGER,
@@ -13,7 +13,7 @@ enum PeazeType {
     NULL,
     UNDEFINED;
 
-    boolean isApplicable(){
+    public boolean isApplicable(){
         return this == PeazeType.BUILTIN_OP
                 || this == PeazeType.PROCEDURE;
     }

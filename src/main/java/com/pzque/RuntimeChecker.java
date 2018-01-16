@@ -1,5 +1,8 @@
 package com.pzque;
 
+import com.pzque.core.PeazeEnv;
+import com.pzque.core.PeazeProcedure;
+import com.pzque.core.PeazeValue;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.util.List;

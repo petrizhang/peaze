@@ -1,8 +1,9 @@
-package com.pzque;
+package com.pzque.core;
 
 import java.util.List;
 
-import com.pzque.PeazeParser.*;
+import com.pzque.core.PeazeEnv;
+import com.pzque.parser.PeazeParser.*;
 
 public class PeazeProcedure {
     public PeazeProcedure(List<String> params, SequenceContext body) {

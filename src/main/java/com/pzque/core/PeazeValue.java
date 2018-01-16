@@ -1,6 +1,6 @@
-package com.pzque;
+package com.pzque.core;
 
-class PeazeValue {
+public class PeazeValue {
     private PeazeType type = null;
     private Object value = null;
 
@@ -115,6 +115,6 @@ class PeazeValue {
         return this.value.toString();
     }
 
-    static final PeazeValue NULL = new PeazeValue(PeazeType.NULL, null);
-    static final PeazeValue UNDEFINED = new PeazeValue(PeazeType.UNDEFINED, null);
+    public static final PeazeValue NULL = new PeazeValue(PeazeType.NULL, null);
+    public static final PeazeValue UNDEFINED = new PeazeValue(PeazeType.UNDEFINED, null);
 }

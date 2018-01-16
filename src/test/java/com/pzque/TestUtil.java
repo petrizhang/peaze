@@ -1,5 +1,7 @@
 package com.pzque;
 
+import com.pzque.parser.PeazeLexer;
+import com.pzque.parser.PeazeParser;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;

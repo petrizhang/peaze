@@ -1,8 +1,8 @@
 package com.pzque;
 
+import com.pzque.parser.PeazeLexer;
+import com.pzque.parser.PeazeParser;
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
  * Hello world!

@@ -1,4 +1,4 @@
-package com.pzque;
+package com.pzque.core;
 
 import java.util.HashMap;
 
@@ -25,7 +25,7 @@ public class PeazeEnv {
      * @param name the name
      * @return the peaze value
      */
-    PeazeValue lookup(String name) {
+    public PeazeValue lookup(String name) {
         // find variable in current scope
         PeazeValue value = this.symbols.getOrDefault(name, null);
         // if not find, continue to lookup in parent scope
@@ -41,7 +41,7 @@ public class PeazeEnv {
      * @param name symbol name
      * @return true or false
      */
-    boolean contains(String name) {
+    public boolean contains(String name) {
         return symbols.containsKey(name) ||
                 (parent != null && parent.contains(name));
     }
@@ -52,7 +52,7 @@ public class PeazeEnv {
      * @param name  symbol name
      * @param value symbol value
      */
-    void insert(String name, PeazeValue value) {
+    public void insert(String name, PeazeValue value) {
         assert !symbols.containsKey(name);
         assert !value.isUndefined();
         assert !value.isNull();
@@ -67,7 +67,7 @@ public class PeazeEnv {
      * @param name  the name
      * @param value the value
      */
-    void update(String name, PeazeValue value) {
+    public void update(String name, PeazeValue value) {
         assert this.contains(name);
         if (symbols.containsKey(name)) {
             this.symbols.replace(name, value);
@@ -76,7 +76,7 @@ public class PeazeEnv {
         parent.update(name, value);
     }
 
-    boolean isGlobal() {
+    public boolean isGlobal() {
         return this.parent == null;
     }
 

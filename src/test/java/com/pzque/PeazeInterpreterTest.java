@@ -1,5 +1,9 @@
 package com.pzque;
 
+import com.pzque.core.PeazeEnv;
+import com.pzque.core.PeazeType;
+import com.pzque.core.PeazeValue;
+import com.pzque.parser.PeazeParser;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;

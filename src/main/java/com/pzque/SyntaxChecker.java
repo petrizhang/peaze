@@ -1,6 +1,6 @@
 package com.pzque;
 
-import com.pzque.PeazeParser.*;
+import com.pzque.parser.PeazeParser.*;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 

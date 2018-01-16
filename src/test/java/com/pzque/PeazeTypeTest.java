@@ -1,5 +1,6 @@
 package com.pzque;
 
+import com.pzque.core.PeazeType;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.framework.TestCase;
