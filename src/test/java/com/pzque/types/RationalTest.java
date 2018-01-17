@@ -1,5 +1,7 @@
-package com.pzque.core;
+package com.pzque.types;
 
+import com.pzque.Utils;
+import com.pzque.types.PeazeRational;
 import junit.framework.TestCase;
 
 public class RationalTest extends TestCase {
@@ -23,8 +25,8 @@ public class RationalTest extends TestCase {
     }
 
     public void testAdd() throws Exception {
-        Rational a = new Rational(1, 2);
-        Rational b = new Rational(2, 3);
+        PeazeRational a = new PeazeRational(1, 2);
+        PeazeRational b = new PeazeRational(2, 3);
 
         assertEquals("1+1/6", a.add(b).toString());
     }
@@ -52,8 +54,8 @@ public class RationalTest extends TestCase {
     }
 
     public void testGcd() throws Exception {
-        assertEquals(1, Rational.gcd(13, 14));
-        assertEquals(9, Rational.gcd(27, 36));
+        assertEquals(1, Utils.gcd(13, 14));
+        assertEquals(9, Utils.gcd(27, 36));
     }
 
     public void testLcm() throws Exception {

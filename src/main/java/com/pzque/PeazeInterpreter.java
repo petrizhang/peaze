@@ -1,11 +1,10 @@
 package com.pzque;
 
-import com.pzque.core.Builtin;
 import com.pzque.core.PeazeEnv;
-import com.pzque.core.Procedure;
-import com.pzque.core.PeazeValue;
+import com.pzque.core.PeazeObject;
 import com.pzque.parser.PeazeBaseVisitor;
 import com.pzque.parser.PeazeParser;
+import com.pzque.types.*;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 
@@ -13,7 +12,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PeazeInterpreter extends PeazeBaseVisitor<PeazeValue> {
+public class PeazeInterpreter extends PeazeBaseVisitor<PeazeObject> {
     private PeazeEnv curEnv;
 
     public PeazeInterpreter() {
@@ -24,13 +23,13 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeValue> {
         return this.curEnv;
     }
 
-    public PeazeValue eval(ParseTree ast) {
+    public PeazeObject eval(ParseTree ast) {
         return ast.accept(this);
     }
 
     @Override
-    public PeazeValue visitProgram(PeazeParser.ProgramContext ctx) {
-        PeazeValue value = PeazeValue.UNSPECIFIED;
+    public PeazeObject visitProgram(PeazeParser.ProgramContext ctx) {
+        PeazeObject value = PeazeUnspecified.getInstance();
         for (PeazeParser.TopunitContext unit : ctx.topunit()) {
             value = this.eval(unit);
         }
@@ -38,62 +37,62 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeValue> {
     }
 
     @Override
-    public PeazeValue visitDefineTopunit(PeazeParser.DefineTopunitContext ctx) {
+    public PeazeObject visitDefineTopunit(PeazeParser.DefineTopunitContext ctx) {
         return this.eval(ctx.define());
     }
 
     @Override
-    public PeazeValue visitApplyTopunit(PeazeParser.ApplyTopunitContext ctx) {
+    public PeazeObject visitApplyTopunit(PeazeParser.ApplyTopunitContext ctx) {
         return this.eval(ctx.apply());
     }
 
     @Override
-    public PeazeValue visitProcDefine(PeazeParser.ProcDefineContext ctx) {
+    public PeazeObject visitProcDefine(PeazeParser.ProcDefineContext ctx) {
         String procName = ctx.ID().getText();
         List<String> paramList = Utils.toStringList(ctx.paramList().ID());
         PeazeParser.SequenceContext body = ctx.sequence();
         // check if the sequence ends with a expression
         SyntaxChecker.CheckInvalidSequence(body);
-        PeazeValue procValue = this.newProcedureValue(paramList, body);
+        PeazeObject procValue = this.newProcedureValue(paramList, body);
         this.binds(ctx, procName, procValue);
-        return PeazeValue.UNSPECIFIED;
+        return PeazeUnspecified.getInstance();
     }
 
     @Override
-    public PeazeValue visitLambdaDefine(PeazeParser.LambdaDefineContext ctx) {
+    public PeazeObject visitLambdaDefine(PeazeParser.LambdaDefineContext ctx) {
         String procName = ctx.ID().getText();
         List<String> paramList = Utils.toStringList(ctx.lambda().paramList().ID());
         PeazeParser.SequenceContext body = ctx.lambda().sequence();
         // check if the sequence ends with a expression
         SyntaxChecker.CheckInvalidSequence(body);
-        PeazeValue procValue = this.newProcedureValue(paramList, body);
+        PeazeObject procValue = this.newProcedureValue(paramList, body);
         this.binds(ctx, procName, procValue);
-        return PeazeValue.UNSPECIFIED;
+        return PeazeUnspecified.getInstance();
     }
 
     @Override
-    public PeazeValue visitVarDefine(PeazeParser.VarDefineContext ctx) {
+    public PeazeObject visitVarDefine(PeazeParser.VarDefineContext ctx) {
         String name = ctx.ID().getText();
         // eval the bound expression
-        PeazeValue value = this.eval(ctx.expr());
+        PeazeObject value = this.eval(ctx.expr());
         this.binds(ctx, name, value);
-        return PeazeValue.UNSPECIFIED;
+        return PeazeUnspecified.getInstance();
     }
 
     @Override
-    public PeazeValue visitApply(PeazeParser.ApplyContext ctx) {
+    public PeazeObject visitApply(PeazeParser.ApplyContext ctx) {
         // fetch the invoked expression
         PeazeParser.ExprContext procedureCtx = ctx.procedure().expr();
         // eval the expression to fetch applicable PeazeProcedure value
-        PeazeValue procValue = this.eval(procedureCtx);
+        PeazeObject procValue = this.eval(procedureCtx);
         // check if the expression is applicable
         RuntimeChecker.CheckNotApplicable(procedureCtx, procValue);
 
         // eval expressions to get parameters' values
         List<PeazeParser.ExprContext> paramExprList = ctx.expr();
-        ArrayList<PeazeValue> arguments = new ArrayList<>();
+        ArrayList<PeazeObject> arguments = new ArrayList<>();
         for (PeazeParser.ExprContext exprCtx : paramExprList) {
-            PeazeValue value = this.eval(exprCtx);
+            PeazeObject value = this.eval(exprCtx);
             arguments.add(value);
         }
 
@@ -102,27 +101,27 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeValue> {
     }
 
     @Override
-    public PeazeValue visitLiteralExpr(PeazeParser.LiteralExprContext ctx) {
+    public PeazeObject visitLiteralExpr(PeazeParser.LiteralExprContext ctx) {
         return this.eval(ctx.literal());
     }
 
     @Override
-    public PeazeValue visitVarRefExpr(PeazeParser.VarRefExprContext ctx) {
+    public PeazeObject visitVarRefExpr(PeazeParser.VarRefExprContext ctx) {
         return this.eval(ctx.varRef());
     }
 
     @Override
-    public PeazeValue visitLambdaExpr(PeazeParser.LambdaExprContext ctx) {
+    public PeazeObject visitLambdaExpr(PeazeParser.LambdaExprContext ctx) {
         return this.eval(ctx.lambda());
     }
 
     @Override
-    public PeazeValue visitApplyExpr(PeazeParser.ApplyExprContext ctx) {
+    public PeazeObject visitApplyExpr(PeazeParser.ApplyExprContext ctx) {
         return this.eval(ctx.apply());
     }
 
     @Override
-    public PeazeValue visitLambda(PeazeParser.LambdaContext ctx) {
+    public PeazeObject visitLambda(PeazeParser.LambdaContext ctx) {
         PeazeParser.SequenceContext body = ctx.sequence();
         // check if the sequence ends with a expression
         SyntaxChecker.CheckInvalidSequence(body);
@@ -131,51 +130,48 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeValue> {
     }
 
     @Override
-    public PeazeValue visitVarRef(PeazeParser.VarRefContext ctx) {
+    public PeazeObject visitVarRef(PeazeParser.VarRefContext ctx) {
         String varName = ctx.getText();
         RuntimeChecker.CheckUndefined(ctx, this.curEnv, varName);
-        PeazeValue value = this.curEnv.lookup(varName);
+        PeazeObject value = this.curEnv.lookup(varName);
         if (value == null) {
-            value = new PeazeValue(new Builtin(varName));
+            value = new PeazeBuiltin(varName);
         }
         return value;
     }
 
     @Override
-    public PeazeValue visitIntegerLiteral(PeazeParser.IntegerLiteralContext ctx) {
+    public PeazeObject visitIntegerLiteral(PeazeParser.IntegerLiteralContext ctx) {
         String text = ctx.getText();
         Integer value = Integer.parseInt(text, 10);
-        return new PeazeValue(value);
+        return new PeazeInteger(value);
     }
 
     @Override
-    public PeazeValue visitBooleanLiteral(PeazeParser.BooleanLiteralContext ctx) {
+    public PeazeObject visitBooleanLiteral(PeazeParser.BooleanLiteralContext ctx) {
         String text = ctx.getText();
-        boolean value;
-        value = text.equals("#t");
-        return new PeazeValue(value);
+        return PeazeBoolean.fromString(text);
     }
 
     @Override
-    public PeazeValue visitDecimalLiteral(PeazeParser.DecimalLiteralContext ctx) {
+    public PeazeObject visitDecimalLiteral(PeazeParser.DecimalLiteralContext ctx) {
         String text = ctx.getText();
-        Double value = Double.parseDouble(text);
-        return new PeazeValue(value);
+        return PeazeReal.fromString(text);
     }
 
-    void binds(ParserRuleContext ctx, String name, PeazeValue value) {
+    void binds(ParserRuleContext ctx, String name, PeazeObject value) {
         // check if the variable is re-defined
         RuntimeChecker.CheckVariableReDefine(ctx, this.curEnv, name);
         this.curEnv.insert(name, value);
     }
 
-    PeazeValue invoke(ParserRuleContext ctx, PeazeValue procValue, List<PeazeValue> arguments) {
+    PeazeObject invoke(ParserRuleContext ctx, PeazeObject procValue, List<PeazeObject> arguments) {
         if (procValue.isBuiltin()) {
-            return procValue.asBuiltin().apply(ctx, arguments);
+            return ((PeazeBuiltin) procValue).apply(ctx, arguments);
         }
 
-        PeazeValue ret = PeazeValue.UNSPECIFIED;
-        Procedure procedure = procValue.asProcedure();
+        PeazeObject ret = PeazeUnspecified.getInstance();
+        PeazeProcedure procedure = (PeazeProcedure) procValue;
 
         // init a new Env object and set it to curEnv
         PeazeEnv previousEnv = this.curEnv;
@@ -200,13 +196,13 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeValue> {
         return ret;
     }
 
-    PeazeValue newProcedureValue(List<String> params, PeazeParser.SequenceContext body) {
+    PeazeObject newProcedureValue(List<String> params, PeazeParser.SequenceContext body) {
         PeazeEnv env = new PeazeEnv(this.curEnv);
-        return new PeazeValue(new Procedure(env, params, body));
+        return new PeazeProcedure(env, params, body);
     }
 
-    PeazeValue evalSequence(PeazeParser.SequenceContext ctx) {
-        PeazeValue value = PeazeValue.UNSPECIFIED;
+    PeazeObject evalSequence(PeazeParser.SequenceContext ctx) {
+        PeazeObject value = PeazeUnspecified.getInstance();
         List<PeazeParser.ExprContext> exprList = ctx.expr();
         assert !exprList.isEmpty();
 

@@ -1,15 +1,26 @@
-package com.pzque.core;
+package com.pzque.types;
 
 import java.util.List;
 
 import com.pzque.core.PeazeEnv;
+import com.pzque.core.PeazeObject;
 import com.pzque.parser.PeazeParser.*;
 
-public class Procedure {
-    public Procedure(PeazeEnv env, List<String> params, SequenceContext body) {
+public class PeazeProcedure extends PeazeObject {
+    public PeazeProcedure(PeazeEnv env, List<String> params, SequenceContext body) {
         this.env = env;
         this.params = params;
         this.body = body;
+    }
+
+    @Override
+    public boolean isProcedure() {
+        return true;
+    }
+
+    @Override
+    public boolean isApplicable() {
+        return true;
     }
 
     public PeazeEnv getEnv() {

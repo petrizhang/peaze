@@ -41,6 +41,19 @@ public class Utils {
         }
         return stringList;
     }
+
+    // greatest common divisor;
+    public static int gcd(int a, int b) {
+        int remainder;
+
+        do {
+            remainder = a % b;
+            a = b;
+            b = remainder;
+        } while (remainder != 0);
+
+        return a;
+    }
 }
 
 class Tuple<T1, T2> {

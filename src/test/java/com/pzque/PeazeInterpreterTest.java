@@ -1,8 +1,7 @@
 package com.pzque;
 
 import com.pzque.core.PeazeEnv;
-import com.pzque.core.PeazeType;
-import com.pzque.core.PeazeValue;
+import com.pzque.core.PeazeObject;
 import com.pzque.parser.PeazeParser;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -51,8 +50,8 @@ public class PeazeInterpreterTest extends TestCase {
             assertTrue(env.lookup("a").isInteger());
             assertTrue(env.lookup("b").isInteger());
 
-            assertEquals(new Integer(11), env.lookup("a").asInteger());
-            assertEquals(new Integer(101), env.lookup("b").asInteger());
+            assertEquals(new Integer(11), env.lookup("a").asJavaInt());
+            assertEquals(new Integer(101), env.lookup("b").asJavaInt());
 
         } catch (PeazeException ex) {
             System.out.println(ex.getMessage());
@@ -78,7 +77,7 @@ public class PeazeInterpreterTest extends TestCase {
         this.interpreter.visitLambdaDefine((PeazeParser.LambdaDefineContext) ctx);
         PeazeEnv env = this.interpreter.getCurEnv();
         assertTrue(env.contains("add"));
-        assertTrue(env.lookup("add").getType() == PeazeType.PROCEDURE);
+        assertTrue(env.lookup("add").isProcedure());
         try {
             code = "(define add (lambda (x y) (+ x y) (define t 1)))";
             ctx = TestUtil.genParser(code).define();
@@ -95,7 +94,7 @@ public class PeazeInterpreterTest extends TestCase {
         this.interpreter.visitVarDefine((PeazeParser.VarDefineContext) ctx);
         PeazeEnv env = this.interpreter.getCurEnv();
         assertTrue(env.contains("x"));
-        assertTrue(env.lookup("x").getType() == PeazeType.INTEGER);
+        assertTrue(env.lookup("x").isInteger());
 
         try {
             code = "(define x 2)";
@@ -124,7 +123,7 @@ public class PeazeInterpreterTest extends TestCase {
     public void testVisitIntegerLiteral() throws Exception {
         String[] codes = {"1", "100", "100000", "9999999"};
         Integer[] results = {1, 100, 100000, 9999999};
-        Function<String, PeazeValue> parse = code -> {
+        Function<String, PeazeObject> parse = code -> {
             PeazeParser parser = TestUtil.genParser(code);
             PeazeParser.LiteralContext ctx = parser.literal();
             return this.interpreter.visitIntegerLiteral((PeazeParser.IntegerLiteralContext) ctx);
@@ -132,16 +131,16 @@ public class PeazeInterpreterTest extends TestCase {
 
         for (int i = 0; i < codes.length; i++) {
             Integer expected = results[i];
-            PeazeValue value = parse.apply(codes[i]);
-            assertTrue(value.getType() == PeazeType.INTEGER);
-            assertEquals(expected, value.asInteger());
+            PeazeObject value = parse.apply(codes[i]);
+            assertTrue(value.isInteger());
+            assertEquals(expected, value.asJavaInt());
         }
     }
 
     public void testVisitBooleanLiteral() throws Exception {
         String[] codes = {"#t", "#f"};
         Boolean[] results = {true, false};
-        Function<String, PeazeValue> parse = code -> {
+        Function<String, PeazeObject> parse = code -> {
             PeazeParser parser = TestUtil.genParser(code);
             PeazeParser.LiteralContext ctx = parser.literal();
             return this.interpreter.visitBooleanLiteral((PeazeParser.BooleanLiteralContext) ctx);
@@ -149,16 +148,16 @@ public class PeazeInterpreterTest extends TestCase {
 
         for (int i = 0; i < codes.length; i++) {
             Boolean expected = results[i];
-            PeazeValue value = parse.apply(codes[i]);
-            assertTrue(value.getType() == PeazeType.BOOLEAN);
-            assertEquals(expected, value.asBoolean());
+            PeazeObject value = parse.apply(codes[i]);
+            assertTrue(value.isBoolean());
+            assertEquals(expected, value.asJavaBoolean());
         }
     }
 
     public void testVisitDecimalLiteral() throws Exception {
         String[] codes = {"1.1", "1.23", "1.243", "123123123.123"};
         Double[] results = {1.1, 1.23, 1.243, 123123123.123};
-        Function<String, PeazeValue> parse = code -> {
+        Function<String, PeazeObject> parse = code -> {
             PeazeParser parser = TestUtil.genParser(code);
             PeazeParser.LiteralContext ctx = parser.literal();
             return this.interpreter.visitDecimalLiteral((PeazeParser.DecimalLiteralContext) ctx);
@@ -166,9 +165,9 @@ public class PeazeInterpreterTest extends TestCase {
 
         for (int i = 0; i < codes.length; i++) {
             Double expected = results[i];
-            PeazeValue value = parse.apply(codes[i]);
-            assertTrue(value.getType() == PeazeType.DOUBLE);
-            assertEquals(expected, value.asDouble());
+            PeazeObject value = parse.apply(codes[i]);
+            assertTrue(value.isDouble());
+            assertEquals(expected, value.asJavaDouble());
         }
     }
 

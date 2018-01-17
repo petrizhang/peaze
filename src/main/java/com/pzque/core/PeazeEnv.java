@@ -7,7 +7,7 @@ import java.util.HashMap;
  */
 public class PeazeEnv {
     private PeazeEnv parent;
-    private HashMap<String, PeazeValue> symbols;
+    private HashMap<String, PeazeObject> symbols;
 
     /**
      * Instantiates a new Peaze env.
@@ -25,9 +25,9 @@ public class PeazeEnv {
      * @param name the name
      * @return the peaze value
      */
-    public PeazeValue lookup(String name) {
+    public PeazeObject lookup(String name) {
         // find variable in current scope
-        PeazeValue value = this.symbols.getOrDefault(name, null);
+        PeazeObject value = this.symbols.getOrDefault(name, null);
         // if not find, continue to lookup in parent scope
         if (value == null && parent != null) {
             return this.parent.lookup(name);
@@ -52,9 +52,9 @@ public class PeazeEnv {
      * @param name  symbol name
      * @param value symbol value
      */
-    public void insert(String name, PeazeValue value) {
+    public void insert(String name, PeazeObject value) {
         assert !symbols.containsKey(name);
-        assert !value.isUndefined();
+        assert !value.isUnSpecified();
         assert !value.isNull();
         symbols.put(name, value);
     }
@@ -67,7 +67,7 @@ public class PeazeEnv {
      * @param name  the name
      * @param value the value
      */
-    public void update(String name, PeazeValue value) {
+    public void update(String name, PeazeObject value) {
         assert this.contains(name);
         if (symbols.containsKey(name)) {
             this.symbols.replace(name, value);
