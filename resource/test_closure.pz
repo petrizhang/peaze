@@ -1,0 +1,15 @@
+(define x 1)
+
+(define y 2)
+
+(define z (+ x y))
+
+(define (f x) (lambda () (+ x 1)))
+
+(define g (f 10))
+
+(define h (f 100))
+
+(define a (g))
+
+(define b (h))

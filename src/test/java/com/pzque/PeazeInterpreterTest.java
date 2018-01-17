@@ -25,28 +25,26 @@ public class PeazeInterpreterTest extends TestCase {
     }
 
     public void testEval() throws Exception {
-        String code = "(define x 1)\n"
-                + "(define y 2)\n"
-                + "(define z (+ x y))\n"
-                + "(define (f x) (lambda () (+ x 1)))\n"
-                + "(define g (f 10))\n"
-                + "(define h (f 100))\n"
-                + "(define a (g))\n"
-                + "(define b (h))\n"
-                ;
 
-        ParserRuleContext ctx = TestUtil.genParser(code).program();
+    }
 
-        this.interpreter.eval(ctx);
-        PeazeEnv env = this.interpreter.getCurEnv();
-        assertTrue(env.contains("x"));
-        assertTrue(env.contains("y"));
-        assertTrue(env.contains("z"));
-        assertTrue(env.lookup("x").isInteger());
-        assertTrue(env.lookup("y").isInteger());
-        assertTrue(env.lookup("z").isInteger());
-
+    public void testClojure() throws Exception {
         try {
+            ParserRuleContext ctx = TestUtil.genParserFromFileName("resource/test_closure.pz").program();
+
+            this.interpreter.eval(ctx);
+            PeazeEnv env = this.interpreter.getCurEnv();
+            assertTrue(env.lookup("x").isInteger());
+            assertTrue(env.lookup("y").isInteger());
+            assertTrue(env.lookup("z").isInteger());
+            assertTrue(env.lookup("f").isProcedure());
+            assertTrue(env.lookup("g").isProcedure());
+            assertTrue(env.lookup("h").isProcedure());
+            assertTrue(env.lookup("a").isInteger());
+            assertTrue(env.lookup("b").isInteger());
+
+            assertEquals(new Integer(11), env.lookup("a").asInteger());
+            assertEquals(new Integer(101), env.lookup("b").asInteger());
 
         } catch (PeazeException ex) {
             System.out.println(ex.getMessage());

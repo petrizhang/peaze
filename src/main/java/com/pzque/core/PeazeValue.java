@@ -54,6 +54,10 @@ public class PeazeValue {
         return this.type == PeazeType.BUILTIN;
     }
 
+    public boolean isProcedure() {
+        return this.type == PeazeType.PROCEDURE;
+    }
+
     public PeazeValue(Boolean value) {
         assert value != null;
         this.type = PeazeType.BOOLEAN;

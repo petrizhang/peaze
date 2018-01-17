@@ -15,4 +15,13 @@ public class TestUtil {
 
         return new PeazeParser(tokens);
     }
+
+    public static PeazeParser genParserFromFileName(String filename) throws Exception {
+        CharStream inputStream = CharStreams.fromFileName(filename);
+        PeazeLexer lexer = new PeazeLexer(inputStream);
+
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+
+        return new PeazeParser(tokens);
+    }
 }
