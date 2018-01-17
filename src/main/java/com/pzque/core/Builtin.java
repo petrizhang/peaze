@@ -2,21 +2,25 @@ package com.pzque.core;
 
 import com.pzque.RuntimeChecker;
 import com.pzque.Utils;
-import com.pzque.core.PeazeValue;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.function.BiFunction;
 
 public class Builtin {
-    public static final HashMap<String, BiFunction<ParserRuleContext, List<PeazeValue>, PeazeValue>>
-            buitinMap = new HashMap<String, BiFunction<ParserRuleContext, List<PeazeValue>, PeazeValue>>() {
-        {
-            put("add", Builtin::add);
-        }
-    };
+    public Builtin(String opString) {
+        assert buitinMap.containsKey(opString);
+        this.op = buitinMap.get(opString);
+    }
+
+    public PeazeValue apply(ParserRuleContext ctx, List<PeazeValue> arguments) {
+        return this.op.apply(ctx, arguments);
+    }
+
+    private BiFunction<ParserRuleContext, List<PeazeValue>, PeazeValue> op;
+
+    /* static methods */
 
     static PeazeValue add(ParserRuleContext ctx, List<PeazeValue> values) {
         RuntimeChecker.CheckADD(ctx, values);
@@ -41,7 +45,14 @@ public class Builtin {
         return new PeazeValue(intSum);
     }
 
-//    static PeazeValue sub() {
+    static PeazeValue display(ParserRuleContext ctx, List<PeazeValue> values) {
+        RuntimeChecker.CheckParamNotMatch(ctx, values.size(), 1);
+        PeazeValue value = values.get(0);
+        System.out.println(value);
+        return value;
+    }
+
+    //    static PeazeValue sub() {
 //
 //    }
 //
@@ -52,7 +63,7 @@ public class Builtin {
 //    static PeazeValue div() {
 //
 //    }
-//
+////
 //    static PeazeValue and() {
 //
 //    }
@@ -60,4 +71,11 @@ public class Builtin {
 //    static PeazeValue or() {
 //
 //    }
+    public static final HashMap<String, BiFunction<ParserRuleContext, List<PeazeValue>, PeazeValue>>
+            buitinMap = new HashMap<String, BiFunction<ParserRuleContext, List<PeazeValue>, PeazeValue>>() {
+        {
+            put("+", Builtin::add);
+            put("display", Builtin::display);
+        }
+    };
 }

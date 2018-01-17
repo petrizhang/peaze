@@ -24,8 +24,16 @@ public class PeazeInterpreterTest extends TestCase {
     public void testGetCurEnv() throws Exception {
     }
 
-    public void testEval() throws Exception {
+    public void testDefine() throws Exception {
+        try {
+            ParserRuleContext ctx = TestUtil.genParserFromFileName("resource/test_define.pz").program();
 
+            this.interpreter.eval(ctx);
+
+        } catch (PeazeException ex) {
+            System.out.println(ex.getMessage());
+            throw ex;
+        }
     }
 
     public void testClojure() throws Exception {

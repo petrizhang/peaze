@@ -23,5 +23,8 @@
   (define z y)
   z)
 
-(f 1) ;;; 1
-(g 1) ;;; 1
+(define f1 (f 1)) ;;; 1
+(define g1 (g 120)) ;;; 1
+
+(display f1)
+(display g1)

@@ -5,8 +5,8 @@ import java.util.List;
 import com.pzque.core.PeazeEnv;
 import com.pzque.parser.PeazeParser.*;
 
-public class PeazeProcedure {
-    public PeazeProcedure(PeazeEnv env, List<String> params, SequenceContext body) {
+public class Procedure {
+    public Procedure(PeazeEnv env, List<String> params, SequenceContext body) {
         this.env = env;
         this.params = params;
         this.body = body;

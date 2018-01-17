@@ -1,10 +1,5 @@
 package com.pzque.core;
 
-import org.antlr.v4.runtime.ParserRuleContext;
-
-import java.util.List;
-import java.util.function.BiFunction;
-
 public class PeazeValue {
     private PeazeType type = null;
     private Object value = null;
@@ -83,13 +78,13 @@ public class PeazeValue {
     }
 
 
-    public PeazeValue(PeazeProcedure value) {
+    public PeazeValue(Procedure value) {
         assert value != null;
         this.type = PeazeType.PROCEDURE;
         this.value = value;
     }
 
-    public PeazeValue(PeazeBuiltin value) {
+    public PeazeValue(Builtin value) {
         assert value != null;
         this.type = PeazeType.BUILTIN;
         this.value = value;
@@ -119,7 +114,7 @@ public class PeazeValue {
         this.value = value;
     }
 
-    public void setFunction(PeazeProcedure value) {
+    public void setFunction(Procedure value) {
         assert value != null;
         this.type = PeazeType.PROCEDURE;
         this.value = value;
@@ -145,14 +140,14 @@ public class PeazeValue {
         return (Integer) this.value;
     }
 
-    public PeazeProcedure asProcedure() {
+    public Procedure asProcedure() {
         assert this.type == PeazeType.PROCEDURE;
-        return (PeazeProcedure) this.value;
+        return (Procedure) this.value;
     }
 
-    public PeazeBuiltin asBuiltin() {
+    public Builtin asBuiltin() {
         assert this.type == PeazeType.BUILTIN;
-        return (PeazeBuiltin) this.value;
+        return (Builtin) this.value;
     }
 
     @Override

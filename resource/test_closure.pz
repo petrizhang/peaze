@@ -13,3 +13,7 @@
 (define a (g))
 
 (define b (h))
+
+(display a)
+
+(display b)

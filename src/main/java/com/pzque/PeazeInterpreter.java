@@ -1,12 +1,13 @@
 package com.pzque;
 
-import com.pzque.core.PeazeBuiltin;
+import com.pzque.core.Builtin;
 import com.pzque.core.PeazeEnv;
-import com.pzque.core.PeazeProcedure;
+import com.pzque.core.Procedure;
 import com.pzque.core.PeazeValue;
 import com.pzque.parser.PeazeBaseVisitor;
 import com.pzque.parser.PeazeParser;
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.tree.ParseTree;
 
 
 import java.util.ArrayList;
@@ -23,8 +24,8 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeValue> {
         return this.curEnv;
     }
 
-    public PeazeValue eval(ParserRuleContext ctx) {
-        return ctx.accept(this);
+    public PeazeValue eval(ParseTree ast) {
+        return ast.accept(this);
     }
 
     @Override
@@ -135,7 +136,7 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeValue> {
         RuntimeChecker.CheckUndefined(ctx, this.curEnv, varName);
         PeazeValue value = this.curEnv.lookup(varName);
         if (value == null) {
-            value = new PeazeValue(new PeazeBuiltin(varName));
+            value = new PeazeValue(new Builtin(varName));
         }
         return value;
     }
@@ -174,7 +175,7 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeValue> {
         }
 
         PeazeValue ret = PeazeValue.UNSPECIFIED;
-        PeazeProcedure procedure = procValue.asProcedure();
+        Procedure procedure = procValue.asProcedure();
 
         // init a new Env object and set it to curEnv
         PeazeEnv previousEnv = this.curEnv;
@@ -201,15 +202,17 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeValue> {
 
     PeazeValue newProcedureValue(List<String> params, PeazeParser.SequenceContext body) {
         PeazeEnv env = new PeazeEnv(this.curEnv);
-        return new PeazeValue(new PeazeProcedure(env, params, body));
+        return new PeazeValue(new Procedure(env, params, body));
     }
 
     PeazeValue evalSequence(PeazeParser.SequenceContext ctx) {
         PeazeValue value = PeazeValue.UNSPECIFIED;
         List<PeazeParser.ExprContext> exprList = ctx.expr();
         assert !exprList.isEmpty();
-        for (PeazeParser.ExprContext expr : ctx.expr()) {
-            value = this.eval(expr);
+
+        List<ParseTree> children = ctx.children;
+        for (ParseTree ast : children) {
+            value = this.eval(ast);
         }
         return value;
     }
