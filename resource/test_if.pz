@@ -1,0 +1,13 @@
+(define a #f)
+
+(define b (if a 1 2))
+
+(display b)
+
+
+(define (f x)
+  (if x
+    (f #f)
+    100))
+
+(display (f #t))

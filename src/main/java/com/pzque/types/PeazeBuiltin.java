@@ -15,6 +15,11 @@ public class PeazeBuiltin extends PeazeObject {
     }
 
     @Override
+    public String getTypeString() {
+        return "builtin-procedure";
+    }
+
+    @Override
     public boolean isApplicable() {
         return true;
     }
@@ -29,8 +34,6 @@ public class PeazeBuiltin extends PeazeObject {
     }
 
     private BiFunction<ParserRuleContext, List<PeazeObject>, PeazeObject> op;
-
-    /* static methods */
 
     static PeazeObject add(ParserRuleContext ctx, List<PeazeObject> values) {
         int given = values.size();

@@ -18,10 +18,16 @@ apply
     ;
 
 expr
-    :  literal  # LiteralExpr
+    :  if_      # IfExpr
+    |  literal  # LiteralExpr
     |  apply    # ApplyExpr
     |  lambda   # LambdaExpr
     |  varRef   # VarRefExpr
+    ;
+
+if_
+    : '(' 'if' cond expr else_body ')'   # FullIf
+    | '(' 'if' cond expr ')'             # PartialIf
     ;
 
 lambda
@@ -43,6 +49,10 @@ sequence
    ;
 
 procedure : expr;
+
+cond : expr;
+
+else_body : expr;
 
 paramList
     : ID*

@@ -2,6 +2,7 @@ package com.pzque;
 
 import com.pzque.core.PeazeEnv;
 import com.pzque.core.PeazeObject;
+import com.pzque.parser.PeazeParser;
 import com.pzque.types.PeazeBuiltin;
 import com.pzque.types.PeazeProcedure;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -39,6 +40,15 @@ public class RuntimeChecker {
         Integer given = paramValues.size();
         if (!expected.equals(given)) {
             raiseContractViolation(ctx, expected.toString(), given.toString());
+        }
+    }
+
+    public static void CheckIfCond(ParserRuleContext ctx, PeazeObject cond) {
+        if (!cond.isBoolean()) {
+            PeazeError.runtimeError("if: condition type mismatch",
+                    String.format("expeced: boolean?\n given: %s", cond.getTypeString()),
+                    ctx
+            );
         }
     }
 

@@ -4,6 +4,11 @@ public class PeazeNumberReal extends PeazeNumber {
 
     private double value;
 
+    @Override
+    public String getTypeString() {
+        return "real";
+    }
+
     public double getValue() {
         return value;
     }

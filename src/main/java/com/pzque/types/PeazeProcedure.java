@@ -14,6 +14,11 @@ public class PeazeProcedure extends PeazeObject {
     }
 
     @Override
+    public String getTypeString() {
+        return "procedure";
+    }
+
+    @Override
     public boolean isProcedure() {
         return true;
     }

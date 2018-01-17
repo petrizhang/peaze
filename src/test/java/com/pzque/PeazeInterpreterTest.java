@@ -21,6 +21,7 @@ public class PeazeInterpreterTest extends TestCase {
     }
 
     public void testGetCurEnv() throws Exception {
+        System.out.println(Integer.class.getName());
     }
 
     public void testBuiltin() throws Exception {
@@ -68,6 +69,19 @@ public class PeazeInterpreterTest extends TestCase {
         } catch (PeazeException ex) {
             System.out.println(ex.getMessage());
         }
+    }
+
+    public void testIf() throws Exception {
+        try {
+            ParserRuleContext ctx = TestUtil.genParserFromFileName("resource/test_if.pz").program();
+
+            this.interpreter.eval(ctx);
+
+        } catch (PeazeException ex) {
+            System.out.println(ex.getMessage());
+            throw ex;
+        }
+
     }
 
     public void testVisitProgram() throws Exception {

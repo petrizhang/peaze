@@ -8,6 +8,11 @@ public class PeazeNumberRational extends PeazeNumber {
     private int numerator;
     private int denominator;
 
+    @Override
+    public String getTypeString() {
+        return "rational";
+    }
+
     public int getIntpart() {
         return intpart;
     }

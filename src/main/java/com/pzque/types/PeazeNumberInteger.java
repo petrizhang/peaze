@@ -7,6 +7,11 @@ public class PeazeNumberInteger extends PeazeNumber {
         this.value = value;
     }
 
+    @Override
+    public String getTypeString() {
+        return "integer";
+    }
+
     public Integer getValue() {
         return value;
     }

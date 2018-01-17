@@ -3,7 +3,12 @@ package com.pzque.types;
 import com.pzque.core.PeazeObject;
 
 public class PeazeBoolean extends PeazeObject {
-    private boolean value;
+    private Boolean value;
+
+    @Override
+    public String getTypeString() {
+        return "boolean";
+    }
 
     private PeazeBoolean(boolean value) {
         this.value = value;

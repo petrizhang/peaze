@@ -29,7 +29,7 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeObject> {
 
     @Override
     public PeazeObject visitProgram(PeazeParser.ProgramContext ctx) {
-        PeazeObject value = PeazeUnspecified.getInstance();
+        PeazeObject value = PeazeVoid.getInstance();
         for (PeazeParser.TopunitContext unit : ctx.topunit()) {
             value = this.eval(unit);
         }
@@ -55,7 +55,7 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeObject> {
         SyntaxChecker.CheckInvalidSequence(body);
         PeazeObject procValue = this.newProcedureValue(paramList, body);
         this.binds(ctx, procName, procValue);
-        return PeazeUnspecified.getInstance();
+        return PeazeVoid.getInstance();
     }
 
     @Override
@@ -67,7 +67,7 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeObject> {
         SyntaxChecker.CheckInvalidSequence(body);
         PeazeObject procValue = this.newProcedureValue(paramList, body);
         this.binds(ctx, procName, procValue);
-        return PeazeUnspecified.getInstance();
+        return PeazeVoid.getInstance();
     }
 
     @Override
@@ -76,7 +76,7 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeObject> {
         // eval the bound expression
         PeazeObject value = this.eval(ctx.expr());
         this.binds(ctx, name, value);
-        return PeazeUnspecified.getInstance();
+        return PeazeVoid.getInstance();
     }
 
     @Override
@@ -118,6 +118,40 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeObject> {
     @Override
     public PeazeObject visitApplyExpr(PeazeParser.ApplyExprContext ctx) {
         return this.eval(ctx.apply());
+    }
+
+    @Override
+    public PeazeObject visitIfExpr(PeazeParser.IfExprContext ctx) {
+        return this.eval(ctx.if_());
+    }
+
+    @Override
+    public PeazeObject visitFullIf(PeazeParser.FullIfContext ctx) {
+        PeazeParser.ExprContext cond = ctx.cond().expr();
+        PeazeParser.ExprContext body = ctx.expr();
+        PeazeParser.ExprContext else_body = ctx.else_body().expr();
+
+        PeazeObject condV = this.eval(cond);
+        RuntimeChecker.CheckIfCond(ctx, condV);
+
+        if (condV.asJavaBoolean()) {
+            return this.eval(body);
+        }
+        return this.eval(else_body);
+    }
+
+    @Override
+    public PeazeObject visitPartialIf(PeazeParser.PartialIfContext ctx) {
+        PeazeParser.ExprContext cond = ctx.cond().expr();
+        PeazeParser.ExprContext body = ctx.expr();
+
+        PeazeObject condV = this.eval(cond);
+        RuntimeChecker.CheckIfCond(ctx, condV);
+
+        if (condV.asJavaBoolean()) {
+            return this.eval(body);
+        }
+        return PeazeVoid.getInstance();
     }
 
     @Override
@@ -170,7 +204,7 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeObject> {
             return ((PeazeBuiltin) procValue).apply(ctx, arguments);
         }
 
-        PeazeObject ret = PeazeUnspecified.getInstance();
+        PeazeObject ret = PeazeVoid.getInstance();
         PeazeProcedure procedure = (PeazeProcedure) procValue;
 
         // init a new Env object and set it to curEnv
@@ -202,7 +236,7 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeObject> {
     }
 
     PeazeObject evalSequence(PeazeParser.SequenceContext ctx) {
-        PeazeObject value = PeazeUnspecified.getInstance();
+        PeazeObject value = PeazeVoid.getInstance();
         List<PeazeParser.ExprContext> exprList = ctx.expr();
         assert !exprList.isEmpty();
 

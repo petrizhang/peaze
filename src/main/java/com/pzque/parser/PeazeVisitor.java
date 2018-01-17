@@ -1,6 +1,5 @@
 // Generated from /data/Users/pcz/Projects/peaze/grammer/Peaze.g4 by ANTLR 4.7
 package com.pzque.parser;
-import com.pzque.parser.PeazeParser;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -59,6 +58,13 @@ public interface PeazeVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitApply(PeazeParser.ApplyContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code IfExpr}
+	 * labeled alternative in {@link PeazeParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIfExpr(PeazeParser.IfExprContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code LiteralExpr}
 	 * labeled alternative in {@link PeazeParser#expr}.
 	 * @param ctx the parse tree
@@ -86,6 +92,20 @@ public interface PeazeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitVarRefExpr(PeazeParser.VarRefExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code FullIf}
+	 * labeled alternative in {@link PeazeParser#if_}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFullIf(PeazeParser.FullIfContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code PartialIf}
+	 * labeled alternative in {@link PeazeParser#if_}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPartialIf(PeazeParser.PartialIfContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link PeazeParser#lambda}.
 	 * @param ctx the parse tree
@@ -131,6 +151,18 @@ public interface PeazeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitProcedure(PeazeParser.ProcedureContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PeazeParser#cond}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCond(PeazeParser.CondContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PeazeParser#else_body}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitElse_body(PeazeParser.Else_bodyContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link PeazeParser#paramList}.
 	 * @param ctx the parse tree

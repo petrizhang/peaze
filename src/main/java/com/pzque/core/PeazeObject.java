@@ -6,6 +6,8 @@ public abstract class PeazeObject {
     public PeazeObject() {
     }
 
+    public abstract String getTypeString();
+
     public boolean isUnSpecified() {
         return false;
     }
