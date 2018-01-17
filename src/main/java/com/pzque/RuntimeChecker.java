@@ -34,31 +34,34 @@ public class RuntimeChecker {
         }
     }
 
-    public static void CheckParamNotMatch(ParserRuleContext ctx, PeazeProcedure procedure, List<PeazeObject> paramValues) {
-        int expected = procedure.getParamCount();
-        int given = paramValues.size();
-        if (expected != given) {
-            PeazeError.runtimeError("contract violation",
-                    String.format(" the expected number of arguments does not match the given number\nexpected: %s\ngiven: %s",
-                            expected, given),
-                    ctx);
+    public static void CheckContractViolation(ParserRuleContext ctx, PeazeProcedure procedure, List<PeazeObject> paramValues) {
+        Integer expected = procedure.getParamCount();
+        Integer given = paramValues.size();
+        if (!expected.equals(given)) {
+            raiseContractViolation(ctx, expected.toString(), given.toString());
         }
     }
 
-    public static void CheckParamNotMatch(ParserRuleContext ctx, int expected, int given) {
-        if (expected != given) {
-            PeazeError.runtimeError("contract violation",
-                    String.format(" the expected number of arguments does not match the given number\nexpected: %s\ngiven: %s",
-                            expected, given),
-                    ctx);
-        }
-    }
-
-    static public void AssertIsNumber(String op, int pos, ParserRuleContext ctx, PeazeObject value) {
+    static public void AssertNumberParam(String op, int pos, ParserRuleContext ctx, PeazeObject value) {
         if (!value.isNumber()) {
             PeazeError.runtimeError("%s: contract violation",
                     String.format("expected: number?, given: %s, argument position: %s", op, value, pos),
                     ctx);
         }
     }
+
+    public static void raiseContractViolation(ParserRuleContext ctx, String expected, String given) {
+        PeazeError.runtimeError("contract violation",
+                String.format(" the expected number of arguments does not match the given number\nexpected: %s\ngiven: %s",
+                        expected, given),
+                ctx);
+    }
+
+    public static void raiseContractViolation(ParserRuleContext ctx, int expected, int given) {
+        PeazeError.runtimeError("contract violation",
+                String.format(" the expected number of arguments does not match the given number\nexpected: %s\ngiven: %s",
+                        expected, given),
+                ctx);
+    }
+
 }

@@ -1,0 +1,9 @@
+(define a 1)
+
+(define b 3)
+
+(define c (- a b))
+
+(display c)
+
+(display (- 1))

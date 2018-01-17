@@ -144,7 +144,7 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeObject> {
     public PeazeObject visitIntegerLiteral(PeazeParser.IntegerLiteralContext ctx) {
         String text = ctx.getText();
         Integer value = Integer.parseInt(text, 10);
-        return new PeazeInteger(value);
+        return new PeazeNumberInteger(value);
     }
 
     @Override
@@ -156,7 +156,7 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeObject> {
     @Override
     public PeazeObject visitDecimalLiteral(PeazeParser.DecimalLiteralContext ctx) {
         String text = ctx.getText();
-        return PeazeReal.fromString(text);
+        return PeazeNumberReal.fromString(text);
     }
 
     void binds(ParserRuleContext ctx, String name, PeazeObject value) {
@@ -180,7 +180,7 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeObject> {
         this.curEnv = newEnv;
 
         // check if the param number matches expected
-        RuntimeChecker.CheckParamNotMatch(ctx, procedure, arguments);
+        RuntimeChecker.CheckContractViolation(ctx, procedure, arguments);
 
         // insert parameters' values to the associated procedure environment
         List<String> params = procedure.getParams();

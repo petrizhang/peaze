@@ -1,7 +1,6 @@
 package com.pzque.types;
 
 import com.pzque.RuntimeChecker;
-import com.pzque.Utils;
 import com.pzque.core.PeazeObject;
 import org.antlr.v4.runtime.ParserRuleContext;
 
@@ -34,18 +33,57 @@ public class PeazeBuiltin extends PeazeObject {
     /* static methods */
 
     static PeazeObject add(ParserRuleContext ctx, List<PeazeObject> values) {
-        PeazeNumber sum = new PeazeInteger(0);
+        int given = values.size();
+
+        if (given == 0) {
+            return new PeazeNumberInteger(0);
+        }
+
+        if (given == 1) {
+            PeazeObject v = values.get(0);
+            RuntimeChecker.AssertNumberParam("+", 1, ctx, v);
+            return v;
+        }
+
+        PeazeNumber sum = new PeazeNumberInteger(0);
         PeazeObject v;
         for (int i = 0; i < values.size(); i++) {
             v = values.get(i);
-            RuntimeChecker.AssertIsNumber("+", i + 1, ctx, v);
+            RuntimeChecker.AssertNumberParam("+", i + 1, ctx, v);
             sum = sum.add((PeazeNumber) v);
         }
         return sum;
     }
 
+    static PeazeObject sub(ParserRuleContext ctx, List<PeazeObject> values) {
+        int given = values.size();
+        if (given < 1) {
+            RuntimeChecker.raiseContractViolation(ctx, "at least one", Integer.toString(given));
+        }
+        PeazeObject firstObject = values.get(0);
+        RuntimeChecker.AssertNumberParam("-", 1, ctx, firstObject);
+        PeazeNumber firstNumber = (PeazeNumber) firstObject;
+
+        if (given == 1) {
+            firstNumber.setNegative();
+            return firstNumber;
+        }
+
+        PeazeObject v;
+        for (int i = 1; i < values.size(); i++) {
+            v = values.get(i);
+            RuntimeChecker.AssertNumberParam("-", i + 1, ctx, v);
+            firstNumber = firstNumber.sub((PeazeNumber) v);
+        }
+        return firstNumber;
+    }
+
     static PeazeObject display(ParserRuleContext ctx, List<PeazeObject> values) {
-        RuntimeChecker.CheckParamNotMatch(ctx, values.size(), 1);
+        int given = values.size();
+        if (given < 1 || given > 2) {
+            RuntimeChecker.raiseContractViolation(ctx, "1-2", Integer.toString(given));
+        }
+
         PeazeObject value = values.get(0);
         System.out.println(value);
         return value;
@@ -74,6 +112,7 @@ public class PeazeBuiltin extends PeazeObject {
             buitinMap = new HashMap<String, BiFunction<ParserRuleContext, List<PeazeObject>, PeazeObject>>() {
         {
             put("+", PeazeBuiltin::add);
+            put("-", PeazeBuiltin::sub);
             put("display", PeazeBuiltin::display);
         }
     };
