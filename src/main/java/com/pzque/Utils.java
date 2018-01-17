@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Utils {
 
-    static final RuntimeException WrongBranch = new RuntimeException("Code reach wrong branch");
+    public static final RuntimeException WrongBranch = new RuntimeException("Code reach wrong branch");
 
     public static String getPosString(ParserRuleContext ctx) {
         Token start = ctx.getStart();

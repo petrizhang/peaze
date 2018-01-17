@@ -4,17 +4,13 @@ public enum PeazeType {
     BOOLEAN,
     CHARACTER,
     INTEGER,
-    FLOAT,
+    RATIONAL,
     DOUBLE,
+    SYMBOL,
     STRING,
     LIST,
-    BUILTIN_OP,
+    BUILTIN,
     PROCEDURE,
     NULL,
-    UNDEFINED;
-
-    public boolean isApplicable(){
-        return this == PeazeType.BUILTIN_OP
-                || this == PeazeType.PROCEDURE;
-    }
+    UNSPECIFIED;
 }

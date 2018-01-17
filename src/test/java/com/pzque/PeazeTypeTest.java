@@ -29,15 +29,6 @@ public class PeazeTypeTest extends TestCase {
      * Method: isApplicable()
      */
     public void testIsApplicable() throws Exception {
-        assertFalse(PeazeType.BOOLEAN.isApplicable());
-        assertFalse(PeazeType.CHARACTER.isApplicable());
-        assertFalse(PeazeType.INTEGER.isApplicable());
-        assertFalse(PeazeType.DOUBLE.isApplicable());
-        assertFalse(PeazeType.NULL.isApplicable());
-        assertFalse(PeazeType.UNDEFINED.isApplicable());
-
-        assertTrue(PeazeType.PROCEDURE.isApplicable());
-        assertTrue(PeazeType.BUILTIN_OP.isApplicable());
     }
 
 

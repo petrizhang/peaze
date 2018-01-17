@@ -1,5 +1,10 @@
 package com.pzque.core;
 
+import org.antlr.v4.runtime.ParserRuleContext;
+
+import java.util.List;
+import java.util.function.BiFunction;
+
 public class PeazeValue {
     private PeazeType type = null;
     private Object value = null;
@@ -17,11 +22,36 @@ public class PeazeValue {
     }
 
     public Boolean isUndefined() {
-        return this.type == PeazeType.UNDEFINED;
+        return this.type == PeazeType.UNSPECIFIED;
     }
 
     public Boolean isNull() {
         return this.type == PeazeType.NULL;
+    }
+
+    public boolean isApplicable() {
+        return this.type == PeazeType.PROCEDURE
+                || this.type == PeazeType.BUILTIN;
+    }
+
+    public boolean isNumber() {
+        return this.type == PeazeType.INTEGER || this.type == PeazeType.DOUBLE;
+    }
+
+    public boolean isInteger() {
+        return this.type == PeazeType.INTEGER;
+    }
+
+    public boolean isDouble() {
+        return this.type == PeazeType.DOUBLE;
+    }
+
+    public boolean isBoolean() {
+        return this.type == PeazeType.BOOLEAN;
+    }
+
+    public boolean isBuiltin() {
+        return this.type == PeazeType.BUILTIN;
     }
 
     public PeazeValue(Boolean value) {
@@ -52,6 +82,12 @@ public class PeazeValue {
     public PeazeValue(PeazeProcedure value) {
         assert value != null;
         this.type = PeazeType.PROCEDURE;
+        this.value = value;
+    }
+
+    public PeazeValue(PeazeBuiltin value) {
+        assert value != null;
+        this.type = PeazeType.BUILTIN;
         this.value = value;
     }
 
@@ -110,11 +146,16 @@ public class PeazeValue {
         return (PeazeProcedure) this.value;
     }
 
+    public PeazeBuiltin asBuiltin() {
+        assert this.type == PeazeType.BUILTIN;
+        return (PeazeBuiltin) this.value;
+    }
+
     @Override
     public String toString() {
         return this.value.toString();
     }
 
     public static final PeazeValue NULL = new PeazeValue(PeazeType.NULL, null);
-    public static final PeazeValue UNDEFINED = new PeazeValue(PeazeType.UNDEFINED, null);
+    public static final PeazeValue UNSPECIFIED = new PeazeValue(PeazeType.UNSPECIFIED, null);
 }

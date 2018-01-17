@@ -25,6 +25,32 @@ public class PeazeInterpreterTest extends TestCase {
     }
 
     public void testEval() throws Exception {
+        String code = "(define x 1)\n"
+                + "(define y 2)\n"
+                + "(define z (+ x y))\n"
+                + "(define (f x) (lambda () (+ x 1)))\n"
+                + "(define g (f 10))\n"
+                + "(define h (f 100))\n"
+                + "(define a (g))\n"
+                + "(define b (h))\n"
+                ;
+
+        ParserRuleContext ctx = TestUtil.genParser(code).program();
+
+        this.interpreter.eval(ctx);
+        PeazeEnv env = this.interpreter.getCurEnv();
+        assertTrue(env.contains("x"));
+        assertTrue(env.contains("y"));
+        assertTrue(env.contains("z"));
+        assertTrue(env.lookup("x").isInteger());
+        assertTrue(env.lookup("y").isInteger());
+        assertTrue(env.lookup("z").isInteger());
+
+        try {
+
+        } catch (PeazeException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 
     public void testVisitProgram() throws Exception {

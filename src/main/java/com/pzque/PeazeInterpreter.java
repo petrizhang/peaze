@@ -1,5 +1,6 @@
 package com.pzque;
 
+import com.pzque.core.PeazeBuiltin;
 import com.pzque.core.PeazeEnv;
 import com.pzque.core.PeazeProcedure;
 import com.pzque.core.PeazeValue;
@@ -11,41 +12,24 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * The type Peaze interpreter.
- */
 public class PeazeInterpreter extends PeazeBaseVisitor<PeazeValue> {
     private PeazeEnv curEnv;
 
-    /**
-     * Instantiates a new Peaze interpreter.
-     */
     public PeazeInterpreter() {
         this.curEnv = new PeazeEnv(null);
     }
 
-    /**
-     * Gets cur env.
-     *
-     * @return the cur env
-     */
     public PeazeEnv getCurEnv() {
         return this.curEnv;
     }
 
-    /**
-     * Eval peaze value.
-     *
-     * @param ctx the ctx
-     * @return the peaze value
-     */
     public PeazeValue eval(ParserRuleContext ctx) {
         return ctx.accept(this);
     }
 
     @Override
     public PeazeValue visitProgram(PeazeParser.ProgramContext ctx) {
-        PeazeValue value = PeazeValue.UNDEFINED;
+        PeazeValue value = PeazeValue.UNSPECIFIED;
         for (PeazeParser.TopunitContext unit : ctx.topunit()) {
             value = this.eval(unit);
         }
@@ -69,9 +53,9 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeValue> {
         PeazeParser.SequenceContext body = ctx.sequence();
         // check if the sequence ends with a expression
         SyntaxChecker.CheckInvalidSequence(body);
-        PeazeValue procValue = new PeazeValue(new PeazeProcedure(paramList, body));
+        PeazeValue procValue = this.newProcedureValue(paramList, body);
         this.binds(ctx, procName, procValue);
-        return PeazeValue.UNDEFINED;
+        return PeazeValue.UNSPECIFIED;
     }
 
     @Override
@@ -81,9 +65,9 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeValue> {
         PeazeParser.SequenceContext body = ctx.lambda().sequence();
         // check if the sequence ends with a expression
         SyntaxChecker.CheckInvalidSequence(body);
-        PeazeValue procValue = new PeazeValue(new PeazeProcedure(paramList, body));
+        PeazeValue procValue = this.newProcedureValue(paramList, body);
         this.binds(ctx, procName, procValue);
-        return PeazeValue.UNDEFINED;
+        return PeazeValue.UNSPECIFIED;
     }
 
     @Override
@@ -92,7 +76,7 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeValue> {
         // eval the bound expression
         PeazeValue value = this.eval(ctx.expr());
         this.binds(ctx, name, value);
-        return PeazeValue.UNDEFINED;
+        return PeazeValue.UNSPECIFIED;
     }
 
     @Override
@@ -106,15 +90,14 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeValue> {
 
         // eval expressions to get parameters' values
         List<PeazeParser.ExprContext> paramExprList = ctx.expr();
-        ArrayList<PeazeValue> paramValues = new ArrayList<>();
+        ArrayList<PeazeValue> arguments = new ArrayList<>();
         for (PeazeParser.ExprContext exprCtx : paramExprList) {
             PeazeValue value = this.eval(exprCtx);
-            paramValues.add(value);
+            arguments.add(value);
         }
 
         // execute procedure body
-        PeazeProcedure procedure = procValue.asProcedure();
-        return this.invoke(procedureCtx, procedure, paramValues);
+        return this.invoke(procedureCtx, procValue, arguments);
     }
 
     @Override
@@ -141,16 +124,20 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeValue> {
     public PeazeValue visitLambda(PeazeParser.LambdaContext ctx) {
         PeazeParser.SequenceContext body = ctx.sequence();
         // check if the sequence ends with a expression
-        SyntaxChecker.CheckInvalidSequence(ctx);
+        SyntaxChecker.CheckInvalidSequence(body);
         List<String> paramList = Utils.toStringList(ctx.paramList().ID());
-        return new PeazeValue(new PeazeProcedure(paramList, body));
+        return this.newProcedureValue(paramList, body);
     }
 
     @Override
     public PeazeValue visitVarRef(PeazeParser.VarRefContext ctx) {
-        // TODO check if the variable exists
         String varName = ctx.getText();
-        return this.curEnv.lookup(varName);
+        RuntimeChecker.CheckUndefined(ctx, this.curEnv, varName);
+        PeazeValue value = this.curEnv.lookup(varName);
+        if (value == null) {
+            value = new PeazeValue(new PeazeBuiltin(varName));
+        }
+        return value;
     }
 
     @Override
@@ -175,59 +162,50 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeValue> {
         return new PeazeValue(value);
     }
 
-    /**
-     * Binds.
-     *
-     * @param ctx   the ctx
-     * @param name  the name
-     * @param value the value
-     */
     void binds(ParserRuleContext ctx, String name, PeazeValue value) {
         // check if the variable is re-defined
         RuntimeChecker.CheckVariableReDefine(ctx, this.curEnv, name);
         this.curEnv.insert(name, value);
     }
 
-    /**
-     * Invoke peaze value.
-     *
-     * @param ctx         the ctx
-     * @param procedure    the procedure
-     * @param paramValues the param values
-     * @return the peaze value
-     */
-    PeazeValue invoke(ParserRuleContext ctx, PeazeProcedure procedure, List<PeazeValue> paramValues) {
-        // check if the param number matches expected
-        RuntimeChecker.CheckParamNotMatch(ctx, procedure, paramValues);
+    PeazeValue invoke(ParserRuleContext ctx, PeazeValue procValue, List<PeazeValue> arguments) {
+        if (procValue.isBuiltin()) {
+            return procValue.asBuiltin().apply(ctx, arguments);
+        }
+
+        PeazeValue ret = PeazeValue.UNSPECIFIED;
+        PeazeProcedure procedure = procValue.asProcedure();
 
         // init a new Env object and set it to curEnv
-        PeazeEnv env = new PeazeEnv(this.curEnv);
-        this.curEnv = env;
+        PeazeEnv previousEnv = this.curEnv;
+        PeazeEnv newEnv = new PeazeEnv(procedure.getEnv().getParent());
+        procedure.setEnv(newEnv);
+        this.curEnv = newEnv;
+
+        // check if the param number matches expected
+        RuntimeChecker.CheckParamNotMatch(ctx, procedure, arguments);
 
         // insert parameters' values to the associated procedure environment
         List<String> params = procedure.getParams();
         int paramCount = procedure.getParamCount();
         for (int i = 0; i < paramCount; i++) {
-            env.insert(params.get(i), paramValues.get(i));
+            this.curEnv.insert(params.get(i), arguments.get(i));
         }
 
         // execute procedure body
-        PeazeValue ret = this.evalSequence(procedure.getBody());
-
-        // after execution, reset curEnv to previous level
-        this.curEnv = env.getParent();
-
+        ret = this.evalSequence(procedure.getBody());
+        // after procedure execution, reset curEnv to previous level
+        this.curEnv = previousEnv;
         return ret;
     }
 
-    /**
-     * Evaluating a sequence of define/expression, return the last expression's evaluation result
-     *
-     * @param ctx the sequence syntax tree
-     * @return the last expression's evaluation result
-     */
+    PeazeValue newProcedureValue(List<String> params, PeazeParser.SequenceContext body) {
+        PeazeEnv env = new PeazeEnv(this.curEnv);
+        return new PeazeValue(new PeazeProcedure(env, params, body));
+    }
+
     PeazeValue evalSequence(PeazeParser.SequenceContext ctx) {
-        PeazeValue value = PeazeValue.UNDEFINED;
+        PeazeValue value = PeazeValue.UNSPECIFIED;
         List<PeazeParser.ExprContext> exprList = ctx.expr();
         assert !exprList.isEmpty();
         for (PeazeParser.ExprContext expr : ctx.expr()) {

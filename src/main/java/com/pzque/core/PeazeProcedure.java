@@ -6,8 +6,8 @@ import com.pzque.core.PeazeEnv;
 import com.pzque.parser.PeazeParser.*;
 
 public class PeazeProcedure {
-    public PeazeProcedure(List<String> params, SequenceContext body) {
-        this.env = null;
+    public PeazeProcedure(PeazeEnv env, List<String> params, SequenceContext body) {
+        this.env = env;
         this.params = params;
         this.body = body;
     }
