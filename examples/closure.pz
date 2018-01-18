@@ -1,0 +1,46 @@
+;;; single level varaible capture
+;;;
+
+(define (f x)
+        (lambda () (+ x 1)))
+
+(define g1 (f 10))
+
+(define g2 (f 100))
+
+;;; 11
+(display (g1))
+
+;;; 101
+(display (g2))
+
+
+(define (addn n)
+        (lambda (x) (+ x n)))
+
+(define add1 (addn 1))
+
+(define add2 (addn 2))
+
+;;; 21
+(display (add1 20))
+
+;;; 22
+(display (add2 20))
+
+
+;;; multi levels varaible capture
+;;;
+
+(define (addxyz x)
+        (lambda (y)
+                (lambda (z)
+                        (+ x y z))))
+
+(define add1-y-z (addxyz 1))
+(define add1-2-z (add1-y-z 2))
+(define add1-3-z (add1-y-z 3))
+;;; 6
+(display (add1-2-z 3))
+;;; 14
+(display (add1-3-z 10))
