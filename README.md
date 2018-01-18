@@ -1,7 +1,10 @@
-# peaze
-Lisp-like programming language running on JVM.
+# Peaze
+Stardard scheme implementation on JVM with extensive jvm support.
 
 ## About
+Peaze is both a programming language and an implementation of that language, with supporting tools and documentation.
+
+The goal of the project is to support all standard featrues described in [Revised6 Report on the Algorithmic Language Scheme (R6RS)](http://www.r6rs.org/), including first-class procedures, proper treatment of tail calls, continuations, user-defined records, libraries, exceptions, and hygienic macro expansion.
 
 ## Roadmap
 ### kenerl features
