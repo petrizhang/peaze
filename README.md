@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/pzque/peaze/master/doc/peaze-logo-sqaure.png" width="300" alt="peaze logo"/>
+<img src="https://raw.githubusercontent.com/pzque/peaze/master/doc/peaze-logo.png" width="300" alt="peaze logo"/>
 
 # Peaze
 Standard scheme implementation on JVM.
