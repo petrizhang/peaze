@@ -1,0 +1,9 @@
+;;; calculate the sum of 1~n
+(define (sum n)
+        (define (sum-help result k)
+                (if (> k n)
+                  result
+                  (sum-help (+ result k) (+ k 1))))
+        (sum-help 0 1))
+
+(display (sum 500))

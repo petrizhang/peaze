@@ -12,19 +12,23 @@ import org.antlr.v4.runtime.ParserRuleContext;
  */
 public class App {
     public static void main(String[] args) throws Exception {
-        if (args.length != 1) {
-            help();
+        try {
+            if (args.length != 1) {
+                help();
+            }
+
+            CharStream inputStream = CharStreams.fromFileName(args[0]);
+            PeazeLexer lexer = new PeazeLexer(inputStream);
+
+            CommonTokenStream tokens = new CommonTokenStream(lexer);
+            PeazeParser parser = new PeazeParser(tokens);
+            ParserRuleContext ast = parser.program();
+
+            PeazeInterpreter interpreter = new PeazeInterpreter();
+            interpreter.eval(ast);
+        } catch (Error e) {
+            System.err.println("woops");
         }
-
-        CharStream inputStream = CharStreams.fromFileName(args[0]);
-        PeazeLexer lexer = new PeazeLexer(inputStream);
-
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        PeazeParser parser = new PeazeParser(tokens);
-        ParserRuleContext ast = parser.program();
-
-        PeazeInterpreter interpreter = new PeazeInterpreter();
-        interpreter.eval(ast);
     }
 
     public static void help() {

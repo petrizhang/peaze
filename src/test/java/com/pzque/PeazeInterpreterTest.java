@@ -25,7 +25,7 @@ public class PeazeInterpreterTest extends TestCase {
 
     public void testBuiltin() throws Exception {
         try {
-            ParserRuleContext ctx = TestUtil.genParserFromFileName("examples/fib.pz").program();
+            ParserRuleContext ctx = TestUtil.genParserFromFileName("examples/recursion.pz").program();
 
             this.interpreter.eval(ctx);
 

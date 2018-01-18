@@ -5,10 +5,6 @@ import com.pzque.core.PeazeObject;
 public class PeazeBoolean extends PeazeObject {
     private Boolean value;
 
-    @Override
-    public String getTypeString() {
-        return "boolean";
-    }
 
     private PeazeBoolean(boolean value) {
         this.value = value;
@@ -30,6 +26,11 @@ public class PeazeBoolean extends PeazeObject {
     }
 
     @Override
+    public String getTypeString() {
+        return "boolean";
+    }
+
+    @Override
     public boolean isBoolean() {
         return true;
     }
@@ -37,5 +38,10 @@ public class PeazeBoolean extends PeazeObject {
     @Override
     public Boolean asJavaBoolean() {
         return this.value;
+    }
+
+    @Override
+    public String toString() {
+        return this.value.toString();
     }
 }

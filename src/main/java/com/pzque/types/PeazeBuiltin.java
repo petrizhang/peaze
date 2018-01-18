@@ -96,7 +96,7 @@ public class PeazeBuiltin extends PeazeObject {
         }
 
         PeazeObject prev, current;
-        PeazeNumber prevNum, currentNum;
+        PeazeNumber currentNum, prevNum;
         prev = values.get(0);
         RuntimeChecker.AssertNumberParam("+", 1, ctx, prev);
         prevNum = (PeazeNumber) prev;
@@ -107,19 +107,19 @@ public class PeazeBuiltin extends PeazeObject {
             currentNum = (PeazeNumber) current;
             switch (op) {
                 case EQ:
-                    tmp = currentNum.eq(prevNum);
+                    tmp = prevNum.eq(currentNum);
                     break;
                 case LE:
-                    tmp = currentNum.le(prevNum);
+                    tmp = prevNum.le(currentNum);
                     break;
                 case GE:
-                    tmp = currentNum.ge(prevNum);
+                    tmp = prevNum.ge(currentNum);
                     break;
                 case LT:
-                    tmp = currentNum.lt(prevNum);
+                    tmp = prevNum.lt(currentNum);
                     break;
                 case GT:
-                    tmp = currentNum.gt(prevNum);
+                    tmp = prevNum.gt(currentNum);
                     break;
                 default:
                     throw Utils.WrongBranch;
@@ -127,7 +127,7 @@ public class PeazeBuiltin extends PeazeObject {
             if (!tmp) {
                 return PeazeBoolean.getFalse();
             }
-            prevNum = currentNum;
+            currentNum = prevNum;
         }
 
         return PeazeBoolean.getTrue();
