@@ -2,7 +2,6 @@ package com.pzque;
 
 import com.pzque.core.PeazeEnv;
 import com.pzque.core.PeazeObject;
-import com.pzque.parser.PeazeParser;
 import com.pzque.types.PeazeBuiltin;
 import com.pzque.types.PeazeProcedure;
 import org.antlr.v4.runtime.ParserRuleContext;

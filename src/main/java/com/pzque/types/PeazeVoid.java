@@ -18,7 +18,6 @@ public class PeazeVoid extends PeazeObject {
 
     private static final PeazeVoid void_ = new PeazeVoid();
 
-    //静态工厂方法
     public static PeazeVoid getInstance() {
         return void_;
     }
