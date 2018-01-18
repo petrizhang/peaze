@@ -1,6 +1,6 @@
-# Peaze
 <img src="https://raw.githubusercontent.com/pzque/peaze/master/doc/peaze-logo-sqaure.png" width="300" alt="peaze logo"/>
-Stardard scheme implementation on JVM with extensive jvm support.
+# Peaze
+Partial scheme implementation on JVM.
 
 ## About
 Peaze is both a programming language and an implementation of that language, with supporting tools and documentation.
