@@ -1,19 +1,18 @@
-
 ;;; recursive version
 (define (fib n)
-  (if (= n 1)
-      1
-      (if (= n 2)
+        (if (= n 1)
           1
-          (+ (fib (- n 1)) (fib (- n 2))))))
+          (if (= n 2)
+            1
+            (+ (fib (- n 1)) (fib (- n 2))))))
 
 ;;; iterative version
 (define (fib-iter n)
-    (define (fib-iter-help n f1 f2)
-      (if (= n 1)
-          f1
-          (fib-iter-help (- n 1) f2 (+ f1 f2))))
-    (fib-iter-help n 1 1))
+        (define (fib-iter-help n f1 f2)
+                (if (= n 1)
+                  f1
+                  (fib-iter-help (- n 1) f2 (+ f1 f2))))
+        (fib-iter-help n 1 1))
 
 (display (fib 10))
 
