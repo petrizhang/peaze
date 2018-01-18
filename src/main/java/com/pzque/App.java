@@ -9,6 +9,7 @@ import org.antlr.v4.runtime.*;
  */
 public class App {
     public static void main(String[] args) throws Exception {
+        
         CharStream inputStream = CharStreams.fromFileName("resource/test_define.pz");
         PeazeLexer lexer = new PeazeLexer(inputStream);
 
