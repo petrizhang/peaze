@@ -9,8 +9,11 @@ import org.antlr.v4.runtime.*;
  */
 public class App {
     public static void main(String[] args) throws Exception {
-        
-        CharStream inputStream = CharStreams.fromFileName("resource/test_define.pz");
+        if (args.length != 1) {
+            help();
+        }
+
+        CharStream inputStream = CharStreams.fromFileName(args[0]);
         PeazeLexer lexer = new PeazeLexer(inputStream);
 
         CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -18,7 +21,11 @@ public class App {
         ParserRuleContext ast = parser.program();
 
         PeazeInterpreter interpreter = new PeazeInterpreter();
+        interpreter.eval(ast);
+    }
 
-        System.out.println(ast.toStringTree());
+    public static void help() {
+        System.out.println("Usage: peazei filename");
+        System.exit(-1);
     }
 }
