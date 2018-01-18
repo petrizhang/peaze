@@ -13,7 +13,7 @@ The kernel features of Peaze include lexical scope, first-class procedures, prop
 Peaze is implemented with java8, currently the recurisive evaluation interpreter is in developing, the future release of Peaze will consist of a the to-JVM-bytecode compiler.
 
 ## try it
-Up to now, Peaze intepreter has already supported some basic operations, first class procedures, recurisions and lexical closures. More details are list in [Roadmap](#Roadmap)  Built with maven you'll get the executable jar file. Your could run the examples in "examples" directory using it: 
+Up to now, Peaze intepreter has already supported some basic operations, first class procedures, recurisions and lexical closures. More details are list in [Roadmap](#roadmap)  Built with maven you'll get the executable jar file. Your could run the examples in "examples" directory using it: 
 
 ```
 cd examples
@@ -63,7 +63,7 @@ Note: There is 2 bugs currently and will be fixed later, so don't scare if you g
 1. The interpreter is implemented with recursive evalution which could cause Java stack overflow exception. I'll modify it to continuation-passing-style later, which could avoid the bug as well as naturlly supporting call/cc.
 2. The internal number implementation uses Java's Integer and Double and doesn't handle number overflow, so if you calculate the sum of two big numbers will get a negative number due to the overflow. It wont't be fixed soon as it doesn't affect kernel features. When the kernel features is complete, I'll use BigInteger and BigDecimal to fix the bug.
 
-## <span id="Roadmap">Roadmap</span>
+## <span id="roadmap">Roadmap</span>
 ### kenerl features
 - [x] s-expression
 - [x] variable/function definition and reference
