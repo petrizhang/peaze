@@ -7,3 +7,36 @@
 (display c)
 
 (display (- 1))
+
+
+(define (sum n)
+  (if (= n 1)
+      1
+      (+ n (sum (- n 1)))))
+
+(define (sum-iter result n)
+  (if (= n 1)
+      (+ result 1)
+      (sum-iter (+ result n) (- n 1))))
+
+(define (fib n)
+  (if (= n 1)
+      1
+      (if (= n 2)
+          1
+          (+ (fib (- n 1)) (fib (- n 2))))))
+
+(define (fib-iter-help n f1 f2)
+  (if (= n 1)
+      f1
+      (fib-iter-help (- n 1) f2 (+ f1 f2))))
+
+(define (fib-iter n)
+  (fib-iter-help n 1 1))
+
+(display (sum 10))
+(display (sum-iter 0 10))
+(display (fib-iter 40))
+
+(display (fib-iter 20))
+(display (fib 20))

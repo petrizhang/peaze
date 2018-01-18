@@ -8,22 +8,6 @@ public class PeazeNumberRational extends PeazeNumber {
     private int numerator;
     private int denominator;
 
-    @Override
-    public String getTypeString() {
-        return "rational";
-    }
-
-    public int getIntpart() {
-        return intpart;
-    }
-
-    public int getNumerator() {
-        return numerator;
-    }
-
-    public int getDenominator() {
-        return denominator;
-    }
 
     public PeazeNumberRational(int intpart, int numerator, int denominator) {
         this.intpart = intpart;
@@ -41,52 +25,69 @@ public class PeazeNumberRational extends PeazeNumber {
         this.numerator = this.numerator % denominator;
     }
 
+    public int getIntpart() {
+        return intpart;
+    }
+
+    public int getNumerator() {
+        return numerator;
+    }
+
+    public int getDenominator() {
+        return denominator;
+    }
+
     @Override
-    void setNegative() {
+    public String getTypeString() {
+        return "rational";
+    }
+
+    @Override
+    public void setNegative() {
         this.numerator = -this.numerator;
     }
 
     @Override
-    PeazeNumber add(PeazeNumber rhs) {
+    public PeazeNumber add(PeazeNumber rhs) {
         return rhs.acceptAdd(this);
     }
 
     @Override
-    PeazeNumber acceptAdd(PeazeNumberInteger lhs) {
+    public PeazeNumber acceptAdd(PeazeNumberInteger lhs) {
         return new PeazeNumberRational(lhs.getValue() + this.intpart, this.numerator, this.denominator);
     }
 
     @Override
-    PeazeNumber acceptAdd(PeazeNumberRational lhs) {
+    public PeazeNumber acceptAdd(PeazeNumberRational lhs) {
         int nume = lhs.denominator * this.numerator + this.denominator * lhs.numerator;
         int deno = lhs.denominator * this.denominator;
         return new PeazeNumberRational(nume, deno);
     }
 
     @Override
-    PeazeNumber acceptAdd(PeazeNumberReal lhs) {
+    public PeazeNumber acceptAdd(PeazeNumberReal lhs) {
         return lhs.acceptAdd(this);
     }
 
     @Override
-    PeazeNumber sub(PeazeNumber rhs) {
+    public PeazeNumber sub(PeazeNumber rhs) {
         return rhs.acceptAdd(this);
     }
 
     @Override
-    PeazeNumber acceptSub(PeazeNumberInteger lhs) {
+    public PeazeNumber acceptSub(PeazeNumberInteger lhs) {
         return new PeazeNumberRational(lhs.getValue() - this.intpart, this.numerator, this.denominator);
     }
 
     @Override
-    PeazeNumber acceptSub(PeazeNumberRational lhs) {
+    public PeazeNumber acceptSub(PeazeNumberRational lhs) {
         int nume = lhs.denominator * this.numerator - this.denominator * lhs.numerator;
         int deno = lhs.denominator * this.denominator;
         return new PeazeNumberRational(nume, deno);
     }
 
     @Override
-    PeazeNumber acceptSub(PeazeNumberReal lhs) {
+    public PeazeNumber acceptSub(PeazeNumberReal lhs) {
         return lhs.acceptSub(this);
     }
 

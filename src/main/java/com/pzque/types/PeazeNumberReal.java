@@ -4,11 +4,6 @@ public class PeazeNumberReal extends PeazeNumber {
 
     private double value;
 
-    @Override
-    public String getTypeString() {
-        return "real";
-    }
-
     public double getValue() {
         return value;
     }
@@ -23,6 +18,11 @@ public class PeazeNumberReal extends PeazeNumber {
     }
 
     @Override
+    public String getTypeString() {
+        return "real";
+    }
+
+    @Override
     public boolean isDouble() {
         return true;
     }
@@ -33,47 +33,47 @@ public class PeazeNumberReal extends PeazeNumber {
     }
 
     @Override
-    void setNegative() {
+    public void setNegative() {
         this.value = -this.value;
     }
 
     @Override
-    PeazeNumber add(PeazeNumber rhs) {
+    public PeazeNumber add(PeazeNumber rhs) {
         return rhs.acceptAdd(this);
     }
 
     @Override
-    PeazeNumber acceptAdd(PeazeNumberInteger lhs) {
+    public PeazeNumber acceptAdd(PeazeNumberInteger lhs) {
         return new PeazeNumberReal(lhs.getValue() + this.value);
     }
 
     @Override
-    PeazeNumber acceptAdd(PeazeNumberRational lhs) {
+    public PeazeNumber acceptAdd(PeazeNumberRational lhs) {
         return new PeazeNumberReal(lhs.asJavaDouble() + this.value);
     }
 
     @Override
-    PeazeNumber acceptAdd(PeazeNumberReal lhs) {
+    public PeazeNumber acceptAdd(PeazeNumberReal lhs) {
         return new PeazeNumberReal(lhs.value + this.value);
     }
 
     @Override
-    PeazeNumber sub(PeazeNumber rhs) {
+    public PeazeNumber sub(PeazeNumber rhs) {
         return rhs.acceptSub(this);
     }
 
     @Override
-    PeazeNumber acceptSub(PeazeNumberInteger lhs) {
+    public PeazeNumber acceptSub(PeazeNumberInteger lhs) {
         return new PeazeNumberReal(lhs.getValue() - this.value);
     }
 
     @Override
-    PeazeNumber acceptSub(PeazeNumberRational lhs) {
+    public PeazeNumber acceptSub(PeazeNumberRational lhs) {
         return new PeazeNumberReal(lhs.asJavaDouble() - this.value);
     }
 
     @Override
-    PeazeNumber acceptSub(PeazeNumberReal lhs) {
+    public PeazeNumber acceptSub(PeazeNumberReal lhs) {
         return new PeazeNumberReal(lhs.value - this.value);
     }
 }

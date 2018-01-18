@@ -21,7 +21,6 @@ public class PeazeInterpreterTest extends TestCase {
     }
 
     public void testGetCurEnv() throws Exception {
-        System.out.println(Integer.class.getName());
     }
 
     public void testBuiltin() throws Exception {
