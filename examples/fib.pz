@@ -6,6 +6,9 @@
             1
             (+ (fib (- n 1)) (fib (- n 2))))))
 
+;;; 55
+(display (fib 10))
+
 ;;; iterative version
 (define (fib-iter n)
         (define (fib-iter-help n f1 f2)
@@ -14,8 +17,8 @@
                   (fib-iter-help (- n 1) f2 (+ f1 f2))))
         (fib-iter-help n 1 1))
 
-(display (fib 10))
-
+;;; 55
 (display (fib-iter 10))
 
+;;; 1820529360
 (display (fib-iter 60))
