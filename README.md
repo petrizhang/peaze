@@ -34,6 +34,10 @@ Lisp-like programming language running on JVM.
 - [ ] cons, car, cdr
 
 ### builtin macros
-- [ ] cond
 - [ ] and
 - [ ] or
+- [ ] cond
+- [ ] case
+- [ ] let
+- [ ] let*
+- [ ] letrec
