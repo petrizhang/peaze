@@ -1,4 +1,5 @@
 # Peaze
+<img src="https://raw.githubusercontent.com/pzque/peaze/master/doc/peaze-logo-sqaure.png" width="300" alt="peaze logo"/>
 Stardard scheme implementation on JVM with extensive jvm support.
 
 ## About
