@@ -1,10 +1,13 @@
-package com.pzque;
+package com.pzque.interpreter;
 
 import com.pzque.core.PeazeEnv;
 import com.pzque.core.PeazeObject;
 import com.pzque.parser.PeazeBaseVisitor;
 import com.pzque.parser.PeazeParser;
 import com.pzque.types.*;
+import com.pzque.util.Utils;
+import com.pzque.errors.RuntimeChecker;
+import com.pzque.errors.SyntaxChecker;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 

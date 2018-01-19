@@ -1,6 +1,6 @@
 package com.pzque.types;
 
-import com.pzque.Utils;
+import com.pzque.util.Utils;
 
 // TODO fix calculate bug
 public class PeazeNumberRational extends PeazeNumber {

@@ -1,4 +1,4 @@
-package com.pzque;
+package com.pzque.interpreter;
 
 import com.pzque.parser.PeazeLexer;
 import com.pzque.parser.PeazeParser;

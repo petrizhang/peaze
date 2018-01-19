@@ -2,7 +2,9 @@ package com.pzque;
 
 import com.pzque.core.PeazeEnv;
 import com.pzque.core.PeazeObject;
+import com.pzque.interpreter.PeazeInterpreter;
 import com.pzque.parser.PeazeParser;
+import com.pzque.errors.PeazeException;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;

@@ -1,6 +1,6 @@
 package com.pzque.core;
 
-import com.pzque.Utils;
+import com.pzque.util.Utils;
 
 public abstract class PeazeObject {
     public PeazeObject() {

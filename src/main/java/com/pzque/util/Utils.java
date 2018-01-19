@@ -1,4 +1,4 @@
-package com.pzque;
+package com.pzque.util;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -56,12 +56,3 @@ public class Utils {
     }
 }
 
-class Tuple<T1, T2> {
-    public Tuple(T1 _1, T2 _2) {
-        this._1 = _1;
-        this._2 = _2;
-    }
-
-    public T1 _1;
-    public T2 _2;
-}

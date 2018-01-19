@@ -1,4 +1,4 @@
-package com.pzque;
+package com.pzque.errors;
 
 import com.pzque.parser.PeazeParser.*;
 import org.antlr.v4.runtime.ParserRuleContext;

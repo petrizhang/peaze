@@ -1,6 +1,6 @@
 package com.pzque.types;
 
-import com.pzque.Utils;
+import com.pzque.util.Utils;
 import junit.framework.TestCase;
 
 public class RationalTest extends TestCase {

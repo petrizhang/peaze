@@ -1,4 +1,4 @@
-package com.pzque;
+package com.pzque.errors;
 
 import com.pzque.core.PeazeEnv;
 import com.pzque.core.PeazeObject;

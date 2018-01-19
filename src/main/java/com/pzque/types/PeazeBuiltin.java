@@ -1,15 +1,13 @@
 package com.pzque.types;
 
-import com.pzque.RuntimeChecker;
-import com.pzque.Utils;
+import com.pzque.errors.RuntimeChecker;
+import com.pzque.util.Utils;
 import com.pzque.core.PeazeObject;
 import org.antlr.v4.runtime.ParserRuleContext;
 
-import java.util.Currency;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 public class PeazeBuiltin extends PeazeObject {
     public PeazeBuiltin(String opString) {

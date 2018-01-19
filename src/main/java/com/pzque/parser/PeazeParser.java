@@ -97,6 +97,14 @@ public class PeazeParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_program; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).enterProgram(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).exitProgram(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitProgram(this);
 			else return visitor.visitChildren(this);
@@ -154,6 +162,14 @@ public class PeazeParser extends Parser {
 		}
 		public ApplyTopunitContext(TopunitContext ctx) { copyFrom(ctx); }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).enterApplyTopunit(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).exitApplyTopunit(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitApplyTopunit(this);
 			else return visitor.visitChildren(this);
@@ -164,6 +180,14 @@ public class PeazeParser extends Parser {
 			return getRuleContext(DefineContext.class,0);
 		}
 		public DefineTopunitContext(TopunitContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).enterDefineTopunit(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).exitDefineTopunit(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitDefineTopunit(this);
@@ -229,6 +253,14 @@ public class PeazeParser extends Parser {
 		}
 		public ProcDefineContext(DefineContext ctx) { copyFrom(ctx); }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).enterProcDefine(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).exitProcDefine(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitProcDefine(this);
 			else return visitor.visitChildren(this);
@@ -242,6 +274,14 @@ public class PeazeParser extends Parser {
 		}
 		public LambdaDefineContext(DefineContext ctx) { copyFrom(ctx); }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).enterLambdaDefine(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).exitLambdaDefine(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitLambdaDefine(this);
 			else return visitor.visitChildren(this);
@@ -254,6 +294,14 @@ public class PeazeParser extends Parser {
 			return getRuleContext(ExprContext.class,0);
 		}
 		public VarDefineContext(DefineContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).enterVarDefine(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).exitVarDefine(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitVarDefine(this);
@@ -350,6 +398,14 @@ public class PeazeParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_apply; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).enterApply(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).exitApply(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitApply(this);
 			else return visitor.visitChildren(this);
@@ -413,6 +469,14 @@ public class PeazeParser extends Parser {
 		}
 		public ApplyExprContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).enterApplyExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).exitApplyExpr(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitApplyExpr(this);
 			else return visitor.visitChildren(this);
@@ -423,6 +487,14 @@ public class PeazeParser extends Parser {
 			return getRuleContext(If_Context.class,0);
 		}
 		public IfExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).enterIfExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).exitIfExpr(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitIfExpr(this);
@@ -435,6 +507,14 @@ public class PeazeParser extends Parser {
 		}
 		public VarRefExprContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).enterVarRefExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).exitVarRefExpr(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitVarRefExpr(this);
 			else return visitor.visitChildren(this);
@@ -446,6 +526,14 @@ public class PeazeParser extends Parser {
 		}
 		public LambdaExprContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).enterLambdaExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).exitLambdaExpr(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitLambdaExpr(this);
 			else return visitor.visitChildren(this);
@@ -456,6 +544,14 @@ public class PeazeParser extends Parser {
 			return getRuleContext(LiteralContext.class,0);
 		}
 		public LiteralExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).enterLiteralExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).exitLiteralExpr(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitLiteralExpr(this);
@@ -546,6 +642,14 @@ public class PeazeParser extends Parser {
 		}
 		public FullIfContext(If_Context ctx) { copyFrom(ctx); }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).enterFullIf(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).exitFullIf(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitFullIf(this);
 			else return visitor.visitChildren(this);
@@ -559,6 +663,14 @@ public class PeazeParser extends Parser {
 			return getRuleContext(ExprContext.class,0);
 		}
 		public PartialIfContext(If_Context ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).enterPartialIf(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).exitPartialIf(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitPartialIf(this);
@@ -633,6 +745,14 @@ public class PeazeParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_lambda; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).enterLambda(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).exitLambda(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitLambda(this);
 			else return visitor.visitChildren(this);
@@ -679,6 +799,14 @@ public class PeazeParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_varRef; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).enterVarRef(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).exitVarRef(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitVarRef(this);
 			else return visitor.visitChildren(this);
@@ -721,6 +849,14 @@ public class PeazeParser extends Parser {
 		public TerminalNode BooleanLiteral() { return getToken(PeazeParser.BooleanLiteral, 0); }
 		public BooleanLiteralContext(LiteralContext ctx) { copyFrom(ctx); }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).enterBooleanLiteral(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).exitBooleanLiteral(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitBooleanLiteral(this);
 			else return visitor.visitChildren(this);
@@ -730,6 +866,14 @@ public class PeazeParser extends Parser {
 		public TerminalNode DecimalLiteral() { return getToken(PeazeParser.DecimalLiteral, 0); }
 		public DecimalLiteralContext(LiteralContext ctx) { copyFrom(ctx); }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).enterDecimalLiteral(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).exitDecimalLiteral(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitDecimalLiteral(this);
 			else return visitor.visitChildren(this);
@@ -738,6 +882,14 @@ public class PeazeParser extends Parser {
 	public static class IntegerLiteralContext extends LiteralContext {
 		public TerminalNode Digits() { return getToken(PeazeParser.Digits, 0); }
 		public IntegerLiteralContext(LiteralContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).enterIntegerLiteral(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).exitIntegerLiteral(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitIntegerLiteral(this);
@@ -809,6 +961,14 @@ public class PeazeParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_sequence; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).enterSequence(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).exitSequence(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitSequence(this);
 			else return visitor.visitChildren(this);
@@ -870,6 +1030,14 @@ public class PeazeParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_procedure; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).enterProcedure(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).exitProcedure(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitProcedure(this);
 			else return visitor.visitChildren(this);
@@ -905,6 +1073,14 @@ public class PeazeParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_cond; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).enterCond(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).exitCond(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitCond(this);
@@ -942,6 +1118,14 @@ public class PeazeParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_else_body; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).enterElse_body(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).exitElse_body(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitElse_body(this);
 			else return visitor.visitChildren(this);
@@ -978,6 +1162,14 @@ public class PeazeParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_paramList; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).enterParamList(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof PeazeListener ) ((PeazeListener)listener).exitParamList(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof PeazeVisitor ) return ((PeazeVisitor<? extends T>)visitor).visitParamList(this);

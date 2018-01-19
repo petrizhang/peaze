@@ -38,7 +38,7 @@
                             <archive>
                                 <manifest>
                                     <mainClass>
-                                        com.pzque.App
+                                        com.pzque.interpreter.App
                                     </mainClass>
                                 </manifest>
                             </archive>
