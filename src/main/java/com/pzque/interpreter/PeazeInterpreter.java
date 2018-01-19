@@ -32,7 +32,7 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeObject> {
 
     @Override
     public PeazeObject visitProgram(PeazeParser.ProgramContext ctx) {
-        PeazeObject value = PeazeVoid.getInstance();
+        PeazeObject value = PeazeUnspecified.getInstance();
         for (PeazeParser.TopunitContext unit : ctx.topunit()) {
             value = this.eval(unit);
         }
@@ -58,7 +58,7 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeObject> {
         SyntaxChecker.CheckInvalidSequence(body);
         PeazeObject procValue = this.newProcedureValue(paramList, body);
         this.binds(ctx, procName, procValue);
-        return PeazeVoid.getInstance();
+        return PeazeUnspecified.getInstance();
     }
 
     @Override
@@ -70,7 +70,7 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeObject> {
         SyntaxChecker.CheckInvalidSequence(body);
         PeazeObject procValue = this.newProcedureValue(paramList, body);
         this.binds(ctx, procName, procValue);
-        return PeazeVoid.getInstance();
+        return PeazeUnspecified.getInstance();
     }
 
     @Override
@@ -79,7 +79,7 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeObject> {
         // eval the bound expression
         PeazeObject value = this.eval(ctx.expr());
         this.binds(ctx, name, value);
-        return PeazeVoid.getInstance();
+        return PeazeUnspecified.getInstance();
     }
 
     @Override
@@ -154,7 +154,7 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeObject> {
         if (condV.asJavaBoolean()) {
             return this.eval(body);
         }
-        return PeazeVoid.getInstance();
+        return PeazeUnspecified.getInstance();
     }
 
     @Override
@@ -207,7 +207,7 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeObject> {
             return ((PeazeBuiltin) procValue).apply(ctx, arguments);
         }
 
-        PeazeObject ret = PeazeVoid.getInstance();
+        PeazeObject ret = PeazeUnspecified.getInstance();
         PeazeProcedure procedure = (PeazeProcedure) procValue;
 
         // init a new Env object and set it to curEnv
@@ -239,7 +239,7 @@ public class PeazeInterpreter extends PeazeBaseVisitor<PeazeObject> {
     }
 
     PeazeObject evalSequence(PeazeParser.SequenceContext ctx) {
-        PeazeObject value = PeazeVoid.getInstance();
+        PeazeObject value = PeazeUnspecified.getInstance();
         List<PeazeParser.ExprContext> exprList = ctx.expr();
         assert !exprList.isEmpty();
 
