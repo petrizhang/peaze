@@ -1,6 +1,7 @@
 package com.pzque.continuation;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public abstract class Continuation<T> {
 
@@ -10,7 +11,7 @@ public abstract class Continuation<T> {
         return null;
     }
 
-    public Continuation<? extends Object> run() {
+    public Continuation<T> run() {
         return null;
     }
 
@@ -24,8 +25,8 @@ public abstract class Continuation<T> {
         return (T) continuation.get();
     }
 
-    public <R> Continuation<R> then(Function<Object, Continuation<R>> function) {
-        return new More<R>(this, function);
+    public <R> Continuation<R> then(Supplier<Continuation<R>> function) {
+        return new More<R>(function);
     }
 
 }
@@ -51,11 +52,10 @@ class Done<T> extends Continuation<T> {
 
 
 class More<R> extends Continuation<R> {
-    private Function<Object, Continuation<R>> function;
-    private Continuation<? extends Object> parent;
+    private Supplier<Continuation<R>> function;
 
-    public More(Continuation<? extends Object> parent) {
-        this.parent = parent;
+    public More(Supplier<Continuation<R>> function) {
+        this.function = function;
     }
 
     @Override
@@ -65,6 +65,28 @@ class More<R> extends Continuation<R> {
 
     @Override
     public Continuation<R> run() {
-        return parent;
+        return function.get();
     }
 }
+
+//class FlatMap<T, R> extends Continuation<R> {
+//    Continuation<T> parent;
+//    Function<T, Continuation<R>> next;
+//
+//    @Override
+//    public Continuation<R> run() {
+//
+//    }
+//
+//    FlatMap(Continuation<T> parent, Function<T, Continuation<R>> next) {
+//        this.parent = parent;
+//        this.next = next;
+//    }
+//
+//    @Override
+//    boolean isDone() {
+//        return false;
+//    }
+//
+
+//}
