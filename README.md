@@ -53,14 +53,14 @@ Peaze is implemented with java8, currently the AST interpreter is under developi
 ```
 
 ## Try it
-To run our interpreter. You need to build this project first:
+To run Peaze source code, you need to build this project first:
 
 1. Install maven in your system.
-2. Clone this repository by:
+2. Clone this repository:
 ```
 git clone https://github.com/pzque/peaze.git
 ```
-3. Build this project by running commands:
+3. Build this project with commands:
 ```
 cd peaze
 mvn package
