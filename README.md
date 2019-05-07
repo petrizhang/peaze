@@ -6,7 +6,7 @@
 A lisp-like programming language running on JVM.
 
 ## About Peaze
-Peaze is a lisp-like programming language. It has extreme flexible syntax just like lisp and provides easy access to Java frameworks.
+Peaze is a lisp-like programming language. It has extremely flexible syntax just like lisp and provides easy access to Java frameworks.
 
 The kernel features of Peaze include lexical scope, first-class procedures, proper treatment of tail calls, continuations, user-defined records, libraries, exceptions, and hygienic macro expansion.
 
